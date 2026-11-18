@@ -1,0 +1,502 @@
+{
+  "schema": "atlantis-gallery-interactions/2",
+  "joints": [
+    {
+      "id": "door",
+      "node": "N2_door_joint",
+      "kind": "rotation",
+      "axis": [
+        0,
+        -1,
+        0
+      ],
+      "limits": [
+        0,
+        1.6580627893946132
+      ],
+      "speed": 3,
+      "slider": false
+    },
+    {
+      "id": "tray",
+      "node": "N124_turntable_pivot",
+      "kind": "spin",
+      "axis": [
+        0,
+        1,
+        0
+      ]
+    }
+  ],
+  "buttons": [
+    {
+      "id": "btn_add_30_sec",
+      "label": "Add 30 Sec",
+      "node": "/Asset/N0_household_microwave/N54_btn_add_30_sec",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "add_30_sec"
+        }
+      ]
+    },
+    {
+      "id": "btn_door_open",
+      "label": "Door Open",
+      "node": "/Asset/N0_household_microwave/N57_btn_door_open",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "door",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "close_door",
+      "label": "Close Door",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "door",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "btn_baked_potato",
+      "label": "Baked Potato",
+      "node": "/Asset/N0_household_microwave/N32_btn_baked_potato",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "preset_baked_potato"
+        }
+      ]
+    },
+    {
+      "id": "btn_popcorn",
+      "label": "Popcorn",
+      "node": "/Asset/N0_household_microwave/N33_btn_popcorn",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "preset_popcorn"
+        }
+      ]
+    },
+    {
+      "id": "btn_pizza",
+      "label": "Pizza",
+      "node": "/Asset/N0_household_microwave/N34_btn_pizza",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "preset_pizza"
+        }
+      ]
+    },
+    {
+      "id": "btn_beverage",
+      "label": "Beverage",
+      "node": "/Asset/N0_household_microwave/N35_btn_beverage",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "preset_beverage"
+        }
+      ]
+    },
+    {
+      "id": "btn_frozen_dinner",
+      "label": "Frozen Dinner",
+      "node": "/Asset/N0_household_microwave/N36_btn_frozen_dinner",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "preset_frozen_dinner"
+        }
+      ]
+    },
+    {
+      "id": "btn_reheat",
+      "label": "Reheat",
+      "node": "/Asset/N0_household_microwave/N37_btn_reheat",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "preset_reheat"
+        }
+      ]
+    },
+    {
+      "id": "btn_power_level",
+      "label": "Power Level",
+      "node": "/Asset/N0_household_microwave/N38_btn_power_level",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "power_level"
+        }
+      ]
+    },
+    {
+      "id": "btn_time_cook",
+      "label": "Time Cook",
+      "node": "/Asset/N0_household_microwave/N39_btn_time_cook",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "time_cook"
+        }
+      ]
+    },
+    {
+      "id": "btn_time_defrost",
+      "label": "Time Defrost",
+      "node": "/Asset/N0_household_microwave/N40_btn_time_defrost",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "time_defrost"
+        }
+      ]
+    },
+    {
+      "id": "btn_kitchen_timer",
+      "label": "Kitchen Timer",
+      "node": "/Asset/N0_household_microwave/N41_btn_kitchen_timer",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "kitchen_timer"
+        }
+      ]
+    },
+    {
+      "id": "btn_weight_defrost",
+      "label": "Weight Defrost",
+      "node": "/Asset/N0_household_microwave/N42_btn_weight_defrost",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "weight_defrost"
+        }
+      ]
+    },
+    {
+      "id": "btn_digit_1",
+      "label": "1",
+      "node": "/Asset/N0_household_microwave/N43_btn_digit_1",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "digit_1"
+        }
+      ]
+    },
+    {
+      "id": "btn_digit_2",
+      "label": "2",
+      "node": "/Asset/N0_household_microwave/N44_btn_digit_2",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "digit_2"
+        }
+      ]
+    },
+    {
+      "id": "btn_digit_3",
+      "label": "3",
+      "node": "/Asset/N0_household_microwave/N45_btn_digit_3",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "digit_3"
+        }
+      ]
+    },
+    {
+      "id": "btn_digit_4",
+      "label": "4",
+      "node": "/Asset/N0_household_microwave/N46_btn_digit_4",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "digit_4"
+        }
+      ]
+    },
+    {
+      "id": "btn_digit_5",
+      "label": "5",
+      "node": "/Asset/N0_household_microwave/N47_btn_digit_5",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "digit_5"
+        }
+      ]
+    },
+    {
+      "id": "btn_digit_6",
+      "label": "6",
+      "node": "/Asset/N0_household_microwave/N48_btn_digit_6",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "digit_6"
+        }
+      ]
+    },
+    {
+      "id": "btn_digit_7",
+      "label": "7",
+      "node": "/Asset/N0_household_microwave/N49_btn_digit_7",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "digit_7"
+        }
+      ]
+    },
+    {
+      "id": "btn_digit_8",
+      "label": "8",
+      "node": "/Asset/N0_household_microwave/N50_btn_digit_8",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "digit_8"
+        }
+      ]
+    },
+    {
+      "id": "btn_digit_9",
+      "label": "9",
+      "node": "/Asset/N0_household_microwave/N51_btn_digit_9",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "digit_9"
+        }
+      ]
+    },
+    {
+      "id": "btn_clock",
+      "label": "Clock",
+      "node": "/Asset/N0_household_microwave/N52_btn_clock",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "clock"
+        }
+      ]
+    },
+    {
+      "id": "btn_digit_0",
+      "label": "0",
+      "node": "/Asset/N0_household_microwave/N53_btn_digit_0",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "digit_0"
+        }
+      ]
+    },
+    {
+      "id": "btn_stop_clear",
+      "label": "Stop/Clear",
+      "node": "/Asset/N0_household_microwave/N55_btn_stop_clear",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "stop_clear"
+        }
+      ]
+    },
+    {
+      "id": "btn_start_pause",
+      "label": "Start/Pause",
+      "node": "/Asset/N0_household_microwave/N56_btn_start_pause",
+      "actions": [
+        {
+          "type": "emit",
+          "event": "start_pause"
+        }
+      ]
+    }
+  ],
+  "logic": {
+    "profile": "microwave",
+    "display": true,
+    "bindings": [
+      {
+        "state": "doorOpen",
+        "type": "set",
+        "joint": "door",
+        "equals": true,
+        "on": 1.6580627893946132,
+        "off": 0
+      },
+      {
+        "state": "heating",
+        "type": "spin",
+        "joint": "tray",
+        "equals": true,
+        "on": 0.6283185307179586
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N58_disp_d1_a",
+        "state": "segment_1a"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N59_disp_d1_b",
+        "state": "segment_1b"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N60_disp_d1_c",
+        "state": "segment_1c"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N61_disp_d1_d",
+        "state": "segment_1d"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N62_disp_d1_e",
+        "state": "segment_1e"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N63_disp_d1_f",
+        "state": "segment_1f"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N64_disp_d1_g",
+        "state": "segment_1g"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N65_disp_d2_a",
+        "state": "segment_2a"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N66_disp_d2_b",
+        "state": "segment_2b"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N67_disp_d2_c",
+        "state": "segment_2c"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N68_disp_d2_d",
+        "state": "segment_2d"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N69_disp_d2_e",
+        "state": "segment_2e"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N70_disp_d2_f",
+        "state": "segment_2f"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N71_disp_d2_g",
+        "state": "segment_2g"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N72_disp_d3_a",
+        "state": "segment_3a"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N73_disp_d3_b",
+        "state": "segment_3b"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N74_disp_d3_c",
+        "state": "segment_3c"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N75_disp_d3_d",
+        "state": "segment_3d"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N76_disp_d3_e",
+        "state": "segment_3e"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N77_disp_d3_f",
+        "state": "segment_3f"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N78_disp_d3_g",
+        "state": "segment_3g"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N79_disp_d4_a",
+        "state": "segment_4a"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N80_disp_d4_b",
+        "state": "segment_4b"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N81_disp_d4_c",
+        "state": "segment_4c"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N82_disp_d4_d",
+        "state": "segment_4d"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N83_disp_d4_e",
+        "state": "segment_4e"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N84_disp_d4_f",
+        "state": "segment_4f"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N85_disp_d4_g",
+        "state": "segment_4g"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N86_disp_colon",
+        "state": "colon"
+      },
+      {
+        "type": "visible",
+        "node": "/Asset/N0_household_microwave/N87_disp_clock",
+        "state": "clock"
+      }
+    ]
+  }
+}

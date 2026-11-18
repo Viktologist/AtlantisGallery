@@ -1,11 +1,39 @@
 [
   {
-    "id":"sample-cabinet",
-    "title":"Cabinet with a Hinged Door",
-    "creator":"Atlantis Gallery",
-    "thumbnail":"./models/sample/preview.webp",
-    "model":"./models/sample/cabinet.usda",
-    "interaction":"./models/sample/interaction.json",
-    "downloads":[{"label":"Download USD Model","url":"./models/sample/cabinet.usda"},{"label":"Download Interaction Data","url":"./models/sample/interaction.json"}]
+    "id": "microwave",
+    "title": "Microwave",
+    "creator": "Atlantis C",
+    "description": "Use the keypad to run the timer and turntable. Opening the door pauses the cycle.",
+    "model": "./models/microwave/preview/microwave.usd",
+    "thumbnail": "./models/microwave/preview.webp",
+    "downloads": [
+      {
+        "label": "Download Model and Motion Files",
+        "url": "./models/microwave/model.zip"
+      },
+      {
+        "label": "Download Modeling Code",
+        "url": "./models/microwave/modeling-code.zip"
+      }
+    ],
+    "interaction": "./models/microwave/interaction.json"
+  },
+  {
+    "id": "sample-cabinet",
+    "title": "Cabinet with a Hinged Door",
+    "creator": "Atlantis Gallery",
+    "thumbnail": "./models/sample/preview.webp",
+    "model": "./models/sample/cabinet.usda",
+    "interaction": "./models/sample/interaction.json",
+    "downloads": [
+      {
+        "label": "Download USD Model",
+        "url": "./models/sample/cabinet.usda"
+      },
+      {
+        "label": "Download Interaction Data",
+        "url": "./models/sample/interaction.json"
+      }
+    ]
   }
 ]
