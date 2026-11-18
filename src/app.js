@@ -30,6 +30,51 @@ function showDetails(item) {
     downloads.append(link);
   }
   if (!downloads.children.length) downloads.textContent = 'No downloads are available for this work.';
+  $('isaac-assembly').hidden = !item.id;
+}
+
+function isaacPrompt(item) {
+  const files = new Map((item.downloads || []).map(file => [new URL(file.url, location.href).href, file.label]));
+  for (const [path, label] of [[item.model, 'Gallery preview model'], [item.interaction, 'Gallery interaction data']]) {
+    if (!path) continue;
+    const url = new URL(path, location.href).href;
+    if (!files.has(url)) files.set(url, label);
+  }
+  return [
+    `Assemble ${JSON.stringify(item.title)} in my Isaac Sim workspace.`,
+    `Gallery work — ${workUrl(item.id).href}`,
+    '',
+    'Use the model and motion downloads for assembly. Use the preview and interaction data as fallbacks.',
+    ...Array.from(files, ([url, label]) => `- ${label} — ${url}`),
+    '',
+    '1. Use the downloaded files in my workspace or fetch them from the links. Extract the package into a dedicated ' +
+      'folder and preserve relative paths. Inspect the USD layers, textures, scripts, and launch instructions.',
+    '2. Use my installed Isaac Sim version. Prefer the packaged Isaac stage and launcher when available. Add the ' +
+      'asset to the destination stage I specify, or create a separate stage for it. Review scripts before running ' +
+      'them and bind the controls to the actual USD prims and joints. If the work ships only with interaction ' +
+      'data, create a small Isaac adapter for the supported actions.',
+    '3. Open the assembled stage in Isaac Sim and test the available controls and observed motion. Report the ' +
+      'stage path, launch command, test results, and any missing dependencies or unsupported actions.',
+  ].join('\n');
+}
+
+function setupIsaacPrompt(item) {
+  $('assemble-isaac').addEventListener('click', async () => {
+    const prompt = isaacPrompt(item);
+    const message = $('isaac-prompt-status');
+    const field = $('isaac-prompt');
+    try {
+      await navigator.clipboard.writeText(prompt);
+      field.hidden = true;
+      message.textContent = 'Prompt copied. Paste it into Codex.';
+    } catch {
+      field.value = prompt;
+      field.hidden = false;
+      message.textContent = 'Copy the prompt below and paste it into Codex.';
+      field.focus();
+      field.select();
+    }
+  });
 }
 
 async function loadInteraction(url) {
@@ -86,6 +131,7 @@ async function showWork() {
   showDetails(item);
   $('work-status').hidden = true;
   $('work').hidden = false;
+  setupIsaacPrompt(item);
 
   // Sharing and download links remain available if the 3D renderer cannot start.
   shareButton.addEventListener('click', async () => {

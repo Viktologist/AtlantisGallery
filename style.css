@@ -97,6 +97,7 @@ h1 { margin: 0; font-size: clamp(32px, 4vw, 56px); line-height: 1.14; letter-spa
 .interaction-button, .download { display: flex; justify-content: space-between; width: 100%; margin: 6px 0; padding: 9px 11px; border: 1px solid var(--line); background: #f0f5e8; color: var(--green); text-align: left; }
 .download::after { content: '↓'; margin-left: 8px; }
 .interaction-button:hover, .download:hover { background: #e6efda; }
+#isaac-prompt { display: block; width: 100%; margin-top: 8px; padding: 9px 11px; border: 1px solid var(--line); background: white; color: var(--green); font: inherit; font-size: 13px; line-height: 1.5; resize: vertical; }
 .slider { display: block; margin: 9px 0; }
 .slider input { width: 100%; margin: 0; accent-color: #6f8f34; }
 
