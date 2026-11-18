@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import sys
 import tempfile
 import time
 from typing import Any
@@ -19,6 +20,7 @@ from mcp.types import ToolAnnotations
 from pydantic import StrictBool
 
 from package_asset import add_to_catalog, stage_package
+from social import sync_social
 
 
 OWNER = 'zhxx1987'
@@ -121,7 +123,9 @@ class GitHub:
         checkout = temp / 'gallery'
         upstream = f'https://github.com/{REPO}.git'
         git('clone', '--quiet', '--depth', '1', '--branch', MAIN, upstream, str(checkout))
-        if not add_to_catalog(checkout, asset_id, package, plan):
+        asset_added = add_to_catalog(checkout, asset_id, package, plan)
+        social_added = owner and sync_social(self, checkout, REPO, PAGES, {asset_id})
+        if not asset_added and not social_added:
             return {'status': 'already_published', 'id': asset_id, 'gallery_url': work_url}
 
         branch_prefix = f"gallery/{asset_id}-{plan['approval_digest'][:12]}-"
@@ -133,9 +137,13 @@ class GitHub:
                         'gallery_url_after_merge': work_url}
 
         title = plan['metadata']['title']
-        git('add', '--', 'catalog.json', f'models/{asset_id}', cwd=checkout)
+        paths = ['catalog.json', f'models/{asset_id}'] if asset_added else []
+        if social_added:
+            paths.append('social.json')
+        git('add', '--', *paths, cwd=checkout)
+        message = f'Add Gallery work: {title}' if asset_added else f'Add social links for {title}'
         git('-c', f'user.name={self.login}', '-c', f'user.email={self.email}',
-            'commit', '--quiet', '-m', f'Add Gallery work: {title}', cwd=checkout)
+            'commit', '--quiet', '-m', message, cwd=checkout)
         branch = MAIN if owner else branch_prefix + uuid4().hex[:8]
         git('-c', f'credential.https://github.com.username={self.login}', 'push',
             upstream if owner else fork, f'HEAD:refs/heads/{branch}', cwd=checkout)
@@ -184,4 +192,9 @@ def publish_gallery_asset(manifest_path: str, approval_digest: str, confirm_publ
 
 
 if __name__ == '__main__':
-    mcp.run(transport='stdio')
+    if sys.argv[1:] == ['--sync-social']:
+        checkout = Path(__file__).resolve().parent.parent
+        updated = sync_social(GitHub(), checkout, REPO, PAGES)
+        print('Updated social.json.' if updated else 'All Gallery assets already have social links.')
+    else:
+        mcp.run(transport='stdio')

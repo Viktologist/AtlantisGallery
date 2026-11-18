@@ -31,6 +31,32 @@ function showDetails(item) {
   }
   if (!downloads.children.length) downloads.textContent = 'No downloads are available for this work.';
   $('isaac-assembly').hidden = !item.id;
+  $('work-social').hidden = !item.id;
+}
+
+async function setupSocial(item) {
+  const hint = $('social-hint');
+  hint.textContent = 'Loading GitHub links…';
+  try {
+    const response = await fetch(new URL('../social.json', import.meta.url));
+    if (!response.ok) throw new Error('Could not load the Gallery social links.');
+    const entries = await response.json();
+    const entry = entries[item.id];
+    if (!Number.isSafeInteger(entry?.discussion) || entry.discussion <= 0 ||
+        typeof entry.gist !== 'string' || !/^[\da-f]{32}$/.test(entry.gist)) {
+      hint.textContent = 'GitHub links are pending for this work.';
+      return;
+    }
+    const discussion = `https://github.com/zhxx1987/AtlantisGallery/discussions/${entry.discussion}`;
+    $('like-work').href = discussion;
+    $('comment-work').href = discussion + '#discussion_bucket';
+    $('favorite-work').href = `https://gist.github.com/zhxx1987/${entry.gist}`;
+    $('social-links').hidden = false;
+    hint.textContent = 'Upvote or leave a comment in the GitHub discussion. Star the gist to save it under Starred gists.';
+  } catch (error) {
+    hint.textContent = 'GitHub links could not be loaded. Refresh to try again.';
+    console.error(error);
+  }
 }
 
 function isaacPrompt(item) {
@@ -132,6 +158,7 @@ async function showWork() {
   $('work-status').hidden = true;
   $('work').hidden = false;
   setupIsaacPrompt(item);
+  void setupSocial(item);
 
   // Sharing and download links remain available if the 3D renderer cannot start.
   shareButton.addEventListener('click', async () => {

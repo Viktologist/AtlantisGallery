@@ -12,6 +12,10 @@ Commit the project directory to a public GitHub repository. Under Settings → P
 
 Add each work to `catalog.json` with `id`, `title`, `creator`, `thumbnail`, `model`, and optional `description`, `interaction`, and `downloads` fields. Write titles, descriptions, download labels, and interaction labels in English. Use the creator's chosen display name. Downloads can link to an archive of the original USD and motion scripts, the modeling code for all parts, and the complete work-order JSON. Include external USD references and textures with their relative paths intact, or use USDZ.
 
+Each work links to its GitHub discussion for upvotes and comments and to a gist for favorites. Visitors can find their saved assets under GitHub's **Starred gists** while signed in.
+
+The owner’s MCP publisher creates both links for direct uploads. After merging a contributor’s pull request or adding a work by hand, run `python publisher/server.py --sync-social` from the Gallery checkout with the publisher dependencies installed and the Gallery owner's GitHub account signed in through Git Credential Manager. Commit and push the updated `social.json`. The command reuses links it created on any previous attempt.
+
 Interaction files support the `atlantis-gallery-interactions/2` schema. Use full prim paths or unique names to bind parts. Define rotation and translation axes in local coordinates. Rotation uses radians and translation uses model units. Each button can bind a 3D part and trigger multiple actions. It also appears in the page controls.
 
 ```json
