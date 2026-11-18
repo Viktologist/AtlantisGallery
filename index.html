@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f5ed">
+  <title>Atlantis Gallery</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./" aria-label="Atlantis Gallery home">
+      <span class="mark" aria-hidden="true">A<span>✳</span></span>
+      <span>ATLANTIS <b>GALLERY</b></span>
+    </a>
+  </header>
+  <main class="gallery">
+    <div class="gallery-heading">
+      <div>
+        <h1>Gallery</h1>
+        <p>Explore models shared by Atlantis C creators.</p>
+      </div>
+      <p id="count" class="gallery-count" hidden></p>
+    </div>
+    <p id="catalog-status" class="notice" role="status">Loading works…</p>
+    <ul id="catalog" class="cards" aria-label="Gallery works"></ul>
+    <nav id="pagination" class="pagination" aria-label="Gallery pagination" hidden></nav>
+  </main>
+  <script type="module" src="./src/gallery.js"></script>
+</body>
+</html>

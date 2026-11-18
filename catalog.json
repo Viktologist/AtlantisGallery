@@ -1,0 +1,11 @@
+[
+  {
+    "id":"sample-cabinet",
+    "title":"Cabinet with a Hinged Door",
+    "creator":"Atlantis Gallery",
+    "thumbnail":"./models/sample/preview.webp",
+    "model":"./models/sample/cabinet.usda",
+    "interaction":"./models/sample/interaction.json",
+    "downloads":[{"label":"Download USD Model","url":"./models/sample/cabinet.usda"},{"label":"Download Interaction Data","url":"./models/sample/interaction.json"}]
+  }
+]

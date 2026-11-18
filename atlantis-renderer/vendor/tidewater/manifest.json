@@ -1,0 +1,521 @@
+{
+  "repository": "https://github.com/dgreenheck/tidewater",
+  "commit": "4811ba48d795197de5621985f404e765c0b7c0ef",
+  "files": [
+    {
+      "path": "CREDITS.md",
+      "git_blob": "591b91d6fa8bfc9f5b52bb2d3643e739b6604264",
+      "sha256": "49706aaa01bc73b678bed06aaa456e01924299e6ee109a5cdccd2e6a07fe5fcd"
+    },
+    {
+      "path": "LICENSE",
+      "git_blob": "114ab92b2ef48d9e63c9f99e830a0125c57ae2f6",
+      "sha256": "413204504456b6b29e99d565629023e9aeee5916907e41fe8ffe8549219348ec"
+    },
+    {
+      "path": "docs/PORTING.md",
+      "git_blob": "3a5771e410618dba2dc9e5596c8961a87219d74a",
+      "sha256": "7ea0392263b4a6fcc61205f158b0c921fd7d8f3878b4640d279a52eb13cbf489"
+    },
+    {
+      "path": "src/core/CDLOD.js",
+      "git_blob": "98ddd701786b05b3c5463df98fd05b1625823d7e",
+      "sha256": "822037eff293345745144ff1cfb2f605bb10b198f7233b849105dcbae0382f52"
+    },
+    {
+      "path": "src/core/Engine.js",
+      "git_blob": "754a2607cf0be72d28bf654d16a312ebe613ea28",
+      "sha256": "a432162924c604882147cee28bfbf67df191e36e7fc23cb6842f436c1f82185a"
+    },
+    {
+      "path": "src/core/Globals.js",
+      "git_blob": "b9f11c8effae98230cfbdea36414f72a99999686",
+      "sha256": "959979ae1d2ec1ebc661b25e2ce2fce14c052375122b7639204aab41e7e055f6"
+    },
+    {
+      "path": "src/engine/Engine.js",
+      "git_blob": "61f5ce682b7f25685160179b779eac559038b949",
+      "sha256": "e0ab1f2893204c5996b409931357de0b1429e502a73f2c61f9f058a69e4617bb"
+    },
+    {
+      "path": "src/engine/constants.js",
+      "git_blob": "52d45984e0ec8f045e59fe88be419e0087528d2d",
+      "sha256": "4610679066f55da362c10a896fea17058ee646affff3981d6e2aede118f2947f"
+    },
+    {
+      "path": "src/engine/core/EventDispatcher.js",
+      "git_blob": "2c4cb5ec7eaf7818605d1a2f07af9f26f19bb8a9",
+      "sha256": "3225f116d0407a8b603917ab8bbe8656f1cbfe97fc1165028bf7420093ae70f3"
+    },
+    {
+      "path": "src/engine/geometry/BufferAttribute.js",
+      "git_blob": "899866b93f444a7ae6aaa3654542461c4588ed83",
+      "sha256": "48cc710ca8029bc15b3c03533b13c478ae55cf52a453543e10d7ffc933580a41"
+    },
+    {
+      "path": "src/engine/geometry/BufferGeometry.js",
+      "git_blob": "ac5d1df7d973b197e80fb970017f1a0f4880f11e",
+      "sha256": "ef3e8470f6cc0745bc50e354c3145da8e470ea1de0e056d33f3f0501901e7376"
+    },
+    {
+      "path": "src/engine/geometry/BufferGeometryUtils.js",
+      "git_blob": "72e08c52162cb8287f5c79a1a369cf649faeae07",
+      "sha256": "c7ab418b86ddd4b623eb7fa6b037c800c141f9f444772d604658961d2d623d4c"
+    },
+    {
+      "path": "src/engine/geometry/PolyhedronGeometry.js",
+      "git_blob": "e3a9b54a4ac33ef9504979b5a8d8de7f3857fe7d",
+      "sha256": "6b5e756688f3ea962c012d7e06c595d1fd5730fba9e44b1cccc5455013b45473"
+    },
+    {
+      "path": "src/engine/geometry/PrimitiveGeometries.js",
+      "git_blob": "e8f7a2ead6130c3102c63b97fbc2389eb14a8f1b",
+      "sha256": "cbde738b33b5e0c67d729825c7d8620b2d819c7aa70bf680b15d94d265732ceb"
+    },
+    {
+      "path": "src/engine/geometry/RoundedBoxGeometry.js",
+      "git_blob": "3b139aa03b7018f215467e807f0cabf5c7626c09",
+      "sha256": "f4c05c55362ff68a2fe2eeae21e9d783344243265e1e18567154fe95b3971413"
+    },
+    {
+      "path": "src/engine/geometry/TubeGeometry.js",
+      "git_blob": "371b8344c1c0c5c7f632d3de5a57f03af0a1bbe2",
+      "sha256": "f493cb4de35444a9adfedf2b7a57994f59cba823e9768b5102080b750b9ef5a2"
+    },
+    {
+      "path": "src/engine/geometry/index.js",
+      "git_blob": "75aa017ddfc9d5e2d22388fee8a4dff157b98be9",
+      "sha256": "7aa336e8ff7d01675b375fbb499ae9820952595f9bac9b169df22d6b1de5538c"
+    },
+    {
+      "path": "src/engine/gpu/Compute.js",
+      "git_blob": "564dede5a5f4d92d3e1e0c1c813ca79b39ab1a9c",
+      "sha256": "bd64385e6d5de7e9a1a7986eb71c7a032d5ed7763568f47285437c9f185a9aa8"
+    },
+    {
+      "path": "src/engine/gpu/GPU.js",
+      "git_blob": "a775579654e3318debd45d4b54e2160fac307aa0",
+      "sha256": "708e0fd59edea32349b5c372f14cc6e09b20dd1e24f536868106ad2a8330428d"
+    },
+    {
+      "path": "src/engine/gpu/Mipmaps.js",
+      "git_blob": "22264d6e62b630c1291dbe30821fec4162de47ca",
+      "sha256": "c3262f6f22cb30275847666ab6f7ed543f0c77b5d06f1d9aa84611cadc7070c6"
+    },
+    {
+      "path": "src/engine/gpu/Readback.js",
+      "git_blob": "a4f68dcca24675b953db834ddab72f1a7ac96d2f",
+      "sha256": "d16b3a3ecc588e5743534cfb10129428666d4114fb7e3372af51cb068529148d"
+    },
+    {
+      "path": "src/engine/gpu/Shader.js",
+      "git_blob": "1709aafe10e5b45164973b97ef0c3a6d364d88d2",
+      "sha256": "b45b50583a6525aa4aa9a26ae5be699032e5c5ae57780daf99ed2a6402860bd6"
+    },
+    {
+      "path": "src/engine/gpu/Texture.js",
+      "git_blob": "d69e3267d13a12308e90aa742dc4f6e7180ef960",
+      "sha256": "4e446d488ee36c88c7ae03552995544559ad4ada2f41320dd206fd4f99f95453"
+    },
+    {
+      "path": "src/engine/gpu/Uniforms.js",
+      "git_blob": "142de35cbf84a5e18bcb19244872ff1569edbe15",
+      "sha256": "51bf60e5da6bbab612cc1405cce5dcb7a759a3732bd0fd7cdfe5e1df73105940"
+    },
+    {
+      "path": "src/engine/index.js",
+      "git_blob": "c90268ea65996f85a12f43cbf4d400be2d038fa7",
+      "sha256": "239f0f1370717789618b0094b983717ca501ad957eaa02bdf3e2b872a66dc454"
+    },
+    {
+      "path": "src/engine/loaders/GLTF.js",
+      "git_blob": "0e7775d201917afe49b160e304037b8c1e3ab6c8",
+      "sha256": "b8a2c3666fa27ea504e62d315ed9c125e178007a27d151eb59c9d1ea5ac210d1"
+    },
+    {
+      "path": "src/engine/math/Box3.js",
+      "git_blob": "2b64a15dbafebd454033be13c143de392ab18ef4",
+      "sha256": "170c606467f859c5a3f6dae1b32256711f61b927aaec42fe3cbcfb4a51c16356"
+    },
+    {
+      "path": "src/engine/math/CatmullRomCurve3.js",
+      "git_blob": "01d7f629500a53b1ac47ff76f386ea2149c0ad9d",
+      "sha256": "b21bae1708947c35819fce3dbe97f90f893c36d7db42392fbd5b63de05991f5f"
+    },
+    {
+      "path": "src/engine/math/Color.js",
+      "git_blob": "c7a419202e475fe0e8cc688772971572ac0905e7",
+      "sha256": "ad9a0110fd607695522c17dce08aa5eacee017e1160fce3aa5ba37704b893d25"
+    },
+    {
+      "path": "src/engine/math/DataUtils.js",
+      "git_blob": "892f7f51c73822143a097a2b1c31ddacda2b442d",
+      "sha256": "f94e4a385baae53868d2e334b31d04c5ac42ca7d382b5f9effcc6ada9060db38"
+    },
+    {
+      "path": "src/engine/math/Euler.js",
+      "git_blob": "989f6620ae37f2f7927e2a7ee5fc1fc47dd0eb7a",
+      "sha256": "5bf51c4b93fffc1cb9c24d4ba75af7b00bc1520880e18353d4f69cddea7e37c7"
+    },
+    {
+      "path": "src/engine/math/Frustum.js",
+      "git_blob": "0947c255f8d03e35a399add145fac81568b633e6",
+      "sha256": "cd6eba21f91122150afc973be49a215a0620c4ae1aea7f3ef0ff65d34d1b3bd9"
+    },
+    {
+      "path": "src/engine/math/MathUtils.js",
+      "git_blob": "4f4a36832e8fa42b483a9ae21d38a0914e2ce0d3",
+      "sha256": "8adcc4743bf966b097bd25057abeb50b313ec9b9030e457825a5da209e1f9534"
+    },
+    {
+      "path": "src/engine/math/Matrix3.js",
+      "git_blob": "bcca7e55d3fb25faa634f2c968e09701deaeadf1",
+      "sha256": "32fa721dfd326e1c0a53695b68938d4f2a5e85903c9b56c7b5f69e80456382da"
+    },
+    {
+      "path": "src/engine/math/Matrix4.js",
+      "git_blob": "167ef5c53a6ff6400931e0b0f29e66d7744e7ea6",
+      "sha256": "c5c1dc971d61cbd21efcb083fdbdfb1e9fb0c6a56c9422266cfdc8b8353d57cc"
+    },
+    {
+      "path": "src/engine/math/Plane.js",
+      "git_blob": "bf8b30e6f5cc37af3a9682350aa3fa39ab68162a",
+      "sha256": "523139ba4761b0f89cb4154e55b90ef6cf79f8c684fa5c50a67dffc4ad8a3d0d"
+    },
+    {
+      "path": "src/engine/math/Quaternion.js",
+      "git_blob": "ce9ef85e65655d2cdb673c7d5608447a4a6d6eca",
+      "sha256": "040b4dd121db6effed1fbb8f2c5a6fb8d96d9523cf91ddde5105dc48c41fb3ce"
+    },
+    {
+      "path": "src/engine/math/Ray.js",
+      "git_blob": "403ebc04db799b20d55756e85682c5407eb782fc",
+      "sha256": "88e40df102d8ca15bf36395883937d1d903541a932d2293cca0690d72373cdcd"
+    },
+    {
+      "path": "src/engine/math/ShapeUtils.js",
+      "git_blob": "de82b607979a457d7f0905a7e86364757b99c346",
+      "sha256": "f560e483842a6ba7e9c73dc6e66614099faf6f4a342c23a83ced82de7cc39976"
+    },
+    {
+      "path": "src/engine/math/Sphere.js",
+      "git_blob": "2b2a3ac18d4f902118d638e4729530f325780c70",
+      "sha256": "9bf98f3c0ff69bd68a0fa1dedd8a19a6abdb37dc2c2979a27ab89def1f94f71c"
+    },
+    {
+      "path": "src/engine/math/Spherical.js",
+      "git_blob": "1249c863e6b3a86eff46496d8133ed6adeca1be4",
+      "sha256": "b0388ee43a1feea9c31d184af0f3b4746261667bfe3d5a3a548cb257862a7772"
+    },
+    {
+      "path": "src/engine/math/Timer.js",
+      "git_blob": "f042c5a8a579ce0041c303fdd013fd0da24ab4d6",
+      "sha256": "065eccbebb840beed5481ccf60f09bd50969d5965aac394f8858d136a4d1ec31"
+    },
+    {
+      "path": "src/engine/math/Vector2.js",
+      "git_blob": "1fe68e515eaffd6e48f4f0818069a14102e725f8",
+      "sha256": "195d0d4cc60dca87b7386464dca3fcfc6c76c852a3ef3dab95e3556ce7947b54"
+    },
+    {
+      "path": "src/engine/math/Vector3.js",
+      "git_blob": "706650a3878102856f9586bda83df37031989593",
+      "sha256": "af1252233ab373aeb9bb8f3514c8fdc3f00e8d2d9d71cdf16536f475a54bcb54"
+    },
+    {
+      "path": "src/engine/math/Vector4.js",
+      "git_blob": "edcfc5ebbb2d07e266795f945edf391e5e7f936e",
+      "sha256": "84deef94dbf6a335ed53aeaa2d6e65cd1f2d90687fb0fd37d18c4fdbf5e25710"
+    },
+    {
+      "path": "src/engine/math/index.js",
+      "git_blob": "5b01e09af07f1de517b8badcc384251ef2faf4b2",
+      "sha256": "96a474ebaf2666dc51217e3d8224254794a5576db3d0acb2ce4a56e00911a2cf"
+    },
+    {
+      "path": "src/engine/render/Frame.js",
+      "git_blob": "9ff67344df397f201f6c32654ad72480c4d4a10f",
+      "sha256": "664f0ecfc0fb4b52d19bca4b1278e8dd0bd979d57e27f3e749e87b7fbc76a398"
+    },
+    {
+      "path": "src/engine/render/FullscreenPass.js",
+      "git_blob": "88c3c465d0ef0db14211bfb593ad46d405cee355",
+      "sha256": "21c7d6014158f76ce8d0b7c4674a1a76c6750d6934db3e327adc5dca1c0bd552"
+    },
+    {
+      "path": "src/engine/render/Material.js",
+      "git_blob": "aec9db94326ba0d3ac8679019c294fbe585947bc",
+      "sha256": "a84b1a3363c954ca4e3c7a5e0bfa0995a3f1e385506f3b05de2dea6b50713d22"
+    },
+    {
+      "path": "src/engine/render/MeshRenderer.js",
+      "git_blob": "52f8d3e44e9c51b362b86006e833e596b951aa9a",
+      "sha256": "7efb3ddb9ad751be89416e301ffdfe3e6613c5b011f9f134c42b35d62b3c6782"
+    },
+    {
+      "path": "src/engine/render/MeshShader.js",
+      "git_blob": "998a433dc405ff1dd6c7cf0dc78834a3acfc529c",
+      "sha256": "610c72bfd72494d8302e776c46afdc2e4b982aaf9068106d5041571efc8b6cd6"
+    },
+    {
+      "path": "src/engine/render/SceneRenderer.js",
+      "git_blob": "252bb0f420021262e1de57ef29cf01628f0b9f8c",
+      "sha256": "1ad99e121c8f09ccbd4d411f31f4fccc50e749c41429d6131e6be6c80370d5ca"
+    },
+    {
+      "path": "src/engine/render/Shadows.js",
+      "git_blob": "71558c98cbf1b5513134ffa49649d0a594f99c5b",
+      "sha256": "3d70ceacbb25505533ce4f47779ba5d97bc5834e2b1e01d0eb659a26c7b8dc91"
+    },
+    {
+      "path": "src/engine/render/Skinning.js",
+      "git_blob": "b41674a500e6f6b4899a91caa5caf2071461128c",
+      "sha256": "14fbc0224cfcad6ee18af4911c6e290a4d495c0dc094e89be1cf8e3de3bdc25d"
+    },
+    {
+      "path": "src/engine/render/wgsl/common.js",
+      "git_blob": "1a208ba0fe8c5154610cbaedf2660412b3c3b4fb",
+      "sha256": "502580bf3c7d684833f2ce622f0f1d34425b0aa3842aedb2106816f5fbbd91c5"
+    },
+    {
+      "path": "src/engine/render/wgsl/lighting.js",
+      "git_blob": "cd0a78db04084c8b1100993668978bc6b61011dc",
+      "sha256": "6f8ed6fa5198ace6c5131429ea356acc8eb2c3de2dbf8761b7954e4c9795f38b"
+    },
+    {
+      "path": "src/engine/scene/Camera.js",
+      "git_blob": "3dbc64d2ae47e4b272bf46eb05304fc001ba1ed8",
+      "sha256": "041f492248dc5425e89c6e207009a6d8ae19264e68cc8638027fd3de4466a160"
+    },
+    {
+      "path": "src/engine/scene/Group.js",
+      "git_blob": "1dd47ae8132132a2f7fa78920433ae65e4c68055",
+      "sha256": "c9837f1c2dd612cf94e1a7b7aac46c1f0fe84573b40ddfc21e75cca333dee2a1"
+    },
+    {
+      "path": "src/engine/scene/Layers.js",
+      "git_blob": "1622163dcdf72bb6be4d0b452f6cd1ee6ee15a9a",
+      "sha256": "b4f9be617a8ebf912561da0414681b06f9dd4179af60bdce16cfa8de49717977"
+    },
+    {
+      "path": "src/engine/scene/Mesh.js",
+      "git_blob": "a5280bb4441e5a52990dab1101d43e9a9774cd10",
+      "sha256": "2ca60839273eca616fb98582aa78f75205ae922a2aafc22bd14c27faad75c2c0"
+    },
+    {
+      "path": "src/engine/scene/Object3D.js",
+      "git_blob": "34fb16aa75edd0376f34cd657344a591f10edbf7",
+      "sha256": "6bf8eb3d3ddc95c3e919cfaf91d62e2761b1dcd97b1c769383dab74a94cc34e0"
+    },
+    {
+      "path": "src/engine/scene/Scene.js",
+      "git_blob": "97103b9b9ec470c5b239da472365c384b8403452",
+      "sha256": "45b6080a68d116088ee45c024216f9d4c7eaa0b33cdd83cadb80ce196d3cb7c3"
+    },
+    {
+      "path": "src/engine/scene/index.js",
+      "git_blob": "02aafdb44a6a7bd2e633ad51df05de2bdf7a1761",
+      "sha256": "80fa84e958bb59d407f080aaa0c43ad6a9b6432fe948733b25707467e02b4ee1"
+    },
+    {
+      "path": "src/engine/webgpu.js",
+      "git_blob": "0b60eccda2da67feec1485247ad71c4f8baeb7d5",
+      "sha256": "f5bef1ce79dababfe5e838d77042293102dad18737b144c872867f36e7fdd461"
+    },
+    {
+      "path": "src/fx/AirMotes.js",
+      "git_blob": "6331ba6ef1ccfe30a325ad179bf074d28138846e",
+      "sha256": "05b5041f6880e0e90f1bf8764df32ffb41592a4ffd10f1dfbfff20d759241dff"
+    },
+    {
+      "path": "src/fx/MarineSnow.js",
+      "git_blob": "bf11666c1bf65064995ab4882f38fcd30dbe3cc6",
+      "sha256": "ba105047209fe0e25475189cde24864a5b058472971c79f98ecacc2fe18b0332"
+    },
+    {
+      "path": "src/fx/Spray.js",
+      "git_blob": "7e2320cfda4b6cd8f9ddfbd82b9416de76cd980f",
+      "sha256": "51975ebd991b5262b2f86a37a5c65156f2759cafe24f1e0c72580c17783b68f8"
+    },
+    {
+      "path": "src/materials/GroundBounce.js",
+      "git_blob": "53318ce92c7c02b5a8f2f7a3fdf62d57e087d4c4",
+      "sha256": "3db38ccf3612a50944d9d51b1b7ddbb6479bd1e0eab252f8b2953ff5f275d3d4"
+    },
+    {
+      "path": "src/materials/LODFade.js",
+      "git_blob": "32deaef9f89ed14848d7b41802f81e41cdfcc2f3",
+      "sha256": "de38c6a21eca7b9e159205904492577ff08e9558ac3ca54b1e75f1fe9fe78352"
+    },
+    {
+      "path": "src/materials/LocalLights.js",
+      "git_blob": "b1c9ff29e5c08618aae4a7bc3d5698fe6add4a07",
+      "sha256": "a3b97b55d96164566d86b15d6f62145189dcd1c765addaa58663ba0507a0f2f3"
+    },
+    {
+      "path": "src/materials/Materials.js",
+      "git_blob": "8d5a8ad38d9f72cd741ece1e22f75aa7d4289d5f",
+      "sha256": "b730faeb06d578e4f505ed29f0baa493d32cd250111e8209cbaed0efcbf8a58d"
+    },
+    {
+      "path": "src/materials/SceneLighting.js",
+      "git_blob": "ef98f6b2612b93ec61b74d85000de8886a3cbe87",
+      "sha256": "591e760dd0d0df58fa6c39772766ffffea89c32c912e2d2f4cf5bef2fde406a4"
+    },
+    {
+      "path": "src/ocean/Breakers.js",
+      "git_blob": "ca54c3cb16d5be1890f8fb4ce3a203d17f047eb3",
+      "sha256": "f5d18878e44516e044da29102b963d320f9c77239020bf42fc82cc7a54d4d408"
+    },
+    {
+      "path": "src/ocean/Caustics.js",
+      "git_blob": "00401f92eab231ed27d65b5a98ab571b739cadeb",
+      "sha256": "fce47316254ea4ba44c466db852246d5654b5892e18106bb04416f6f81114d81"
+    },
+    {
+      "path": "src/ocean/ComputeMips.js",
+      "git_blob": "2b66b95071ef892165a19a5a0fdf5b45ababa43f",
+      "sha256": "7afb698431dcfb4afeaebbd6e627cf3a4ac6d3c4d7c1a966e3d9491ea692c933"
+    },
+    {
+      "path": "src/ocean/FoamTexture.js",
+      "git_blob": "6829e7801b06ac4ea14584c5a051e7f17faa2b0a",
+      "sha256": "12cf8284119111704ad70267110c7906a7ceaa2514864ab96e9f4be6183fbab7"
+    },
+    {
+      "path": "src/ocean/OceanFFT.js",
+      "git_blob": "40fb45accea640665946faf690f5c856a33331ae",
+      "sha256": "0b49481bdd7aaad20d0cadf4ae5a079f6fca71d712f46b281bde44ab0d03f208"
+    },
+    {
+      "path": "src/ocean/RefractionPass.js",
+      "git_blob": "501d468b370421f2394d4fb03b4d71ef3781554e",
+      "sha256": "942f5fe1f66a4ebebf4ed7b670e99c8579f3f1f2961a3435feb8b25b52ed9864"
+    },
+    {
+      "path": "src/ocean/SeaDetail.js",
+      "git_blob": "8f3448a10abefb4d7c570389eb74f53c4e563894",
+      "sha256": "d74b20d223a7b7d6964d872f6ee680543aa812676212d6c925d9db1be5e9f931"
+    },
+    {
+      "path": "src/ocean/ShoreSim.js",
+      "git_blob": "364ebfe9cf57143e46da2df3641476ec9caeb921",
+      "sha256": "fe121eb60c1929382dbdbf314f0ef2b43b44042ddae6363177711a774ddbe2b0"
+    },
+    {
+      "path": "src/ocean/ShoreWaves.js",
+      "git_blob": "f82d72642577f4518480c6d2cd88b141a70c8447",
+      "sha256": "7640238fbf64b44af094da398d430745ec4bff38108305125c1b8ae8f8d94eee"
+    },
+    {
+      "path": "src/ocean/SurfFoam.js",
+      "git_blob": "c86cc12b9d0619d3f52a266e3945f2fb09ec5bf4",
+      "sha256": "2d6160dc066ffbb73e706a67d646a4499dff01e38febeae3a10d9c28fff980b9"
+    },
+    {
+      "path": "src/ocean/UnderwaterLighting.js",
+      "git_blob": "48271e035b160aa1762004f7ae20dd206246e269",
+      "sha256": "4912e064498dc735e9b768e8778a90ddfa9741c8b6e92c30ae9712d1e86aee3d"
+    },
+    {
+      "path": "src/ocean/WakeSim.js",
+      "git_blob": "6eb8b5da1b19d1aeef799879e8f9bd10cf599c73",
+      "sha256": "4868b0443155f1a96d7f3675ec6ce0c54d28ec79a00c365e03f0d45979fe9c82"
+    },
+    {
+      "path": "src/ocean/WaterMaterial.js",
+      "git_blob": "cfdb390c4c5d2453f03543d084d03ce3da2c62b3",
+      "sha256": "3edfa60d4c4066c896f3385362680295873e72ae5a242c7f20f1a02b1744e620"
+    },
+    {
+      "path": "src/ocean/WaterQuery.js",
+      "git_blob": "c2f9196f40317ecbbb3703e7c8a2fb21afce6e9c",
+      "sha256": "6d00c2638c137bf763782c1930477b7a09c94ef4dac08f980200eabb9f46bf76"
+    },
+    {
+      "path": "src/ocean/WaterSurface.js",
+      "git_blob": "ad28db6bcba18e37fadd026079c33c4db22a0cb4",
+      "sha256": "ca52b7c33a90f1539a6f613ebf1d73f3b90b56cffcea0a87bf953d109b690487"
+    },
+    {
+      "path": "src/ocean/WhaleWater.js",
+      "git_blob": "7537b74eb6c122daa19b1820d6cee7ca13864d16",
+      "sha256": "4a71d51a1e41c6d45cb3e6a0e8fe819fddbc141b86d91907347e462d6974d06e"
+    },
+    {
+      "path": "src/post/AirHaze.js",
+      "git_blob": "fd0e5ebb7120057eb8abc03cae904cd0e467381d",
+      "sha256": "613cdb3778bdd1148eed012726bc21a78d5343ecd70ed8b97b5308326f77fd92"
+    },
+    {
+      "path": "src/post/AntiAlias.js",
+      "git_blob": "db9269257b8830abf2c0922c29e515e295c9fcf5",
+      "sha256": "89a86f58eda26d9b30ab77e5fbe48a3967594cb9986b6bd63655410974d9c328"
+    },
+    {
+      "path": "src/post/CameraVelocity.js",
+      "git_blob": "3bc204c9f19abae970e15d8e83729f659e8e99db",
+      "sha256": "91055bb99d82d58823f15506a4e2f2983483d9d83d1c6ac778e24a8bee844d3a"
+    },
+    {
+      "path": "src/post/GTAO.js",
+      "git_blob": "794c72a58544641fb45cc67e9b61d2f018c238db",
+      "sha256": "9dd3f44b50f4a84748414d1626db8949ef3597e51dd0173b62aa4e2b65873d97"
+    },
+    {
+      "path": "src/post/LensDroplets.js",
+      "git_blob": "c5a269d8f38fb4bee6ca947ad52f1033ace88b14",
+      "sha256": "6a0d998c2b0688e242fdafea38aab5fd284a92164343d383351dd8d3da8557d2"
+    },
+    {
+      "path": "src/post/LensFlare.js",
+      "git_blob": "2643365d85b8cac59c3da41fa308fad315eaa9e4",
+      "sha256": "298e3660cc066364261e023c2ddf5232049a2b3d1ba7701ba54694fec775d1bb"
+    },
+    {
+      "path": "src/post/MotionBlur.js",
+      "git_blob": "fbf543bd999d49944bbdfd35279441f2b4e61633",
+      "sha256": "34f91d913817f66f223780b9b8aa0f19be035511fc04c536096155e8c76abc68"
+    },
+    {
+      "path": "src/post/PostFX.js",
+      "git_blob": "2688d502ba5f81199f518eb3299c81eaf72777af",
+      "sha256": "242214049f190d9f73bdc60b1f9c8c42c301b518dcacc9f500aeab94420853f2"
+    },
+    {
+      "path": "src/post/TemporalUpscale.js",
+      "git_blob": "e4ab9f25e1da2bcacbcff915b9933632ad5c8730",
+      "sha256": "315a24a7626a68bc562969efe93f2059ca2d16404b87ff87600599a3b8d87522"
+    },
+    {
+      "path": "src/post/Underwater.js",
+      "git_blob": "f19f1c99433f8e7e2556605678fad7441d32e62e",
+      "sha256": "495880f460f41459bdd2703b905441234e2441055e2cd46b58c7706761e2ec97"
+    },
+    {
+      "path": "src/sky/Atmosphere.js",
+      "git_blob": "8371c836d0614fd66697a4b438b57eb40c047c28",
+      "sha256": "e39678028b8e1022b7b1372a8046bb8749334e7674fb5c90b38132e990454777"
+    },
+    {
+      "path": "src/sky/Clouds.js",
+      "git_blob": "b129b09dbf8d251cf568ede54f8f74d4145bb16d",
+      "sha256": "f64d01dfbbb5020b5a00f64b83f6f8b2bcf313d53b13ceced550788513ca9edb"
+    },
+    {
+      "path": "src/sky/Environment.js",
+      "git_blob": "80b8e7c488750db2b72a2fef24245f5483649378",
+      "sha256": "4d98dc1ea613673c97ce2062ac8bb9e07e145d4e6c4520b15ca0b17c89420195"
+    },
+    {
+      "path": "src/sky/Sky.js",
+      "git_blob": "658d64f2942f17fda211e61c29e40195ad130c2c",
+      "sha256": "d235d337d8a287803543e32d932c19030cd9f907d1887e1735fbf178207a50ee"
+    },
+    {
+      "path": "src/sky/SkyProClouds.js",
+      "git_blob": "b308d73203b3efa263722d77a56393d3728cd74b",
+      "sha256": "88164592e6f8ca0c8e2d6d6bfa856fad27af22948296bdbdc9c9bb20678a7839"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f5ed">
+  <title>Work Details · Atlantis Gallery</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">
+    {"imports": {
+      "three": "./src/three/build/three.module.js",
+      "three/addons/": "./src/three/examples/jsm/"
+    }}
+  </script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./" aria-label="Atlantis Gallery home">
+      <span class="mark" aria-hidden="true">A<span>✳</span></span>
+      <span>ATLANTIS <b>GALLERY</b></span>
+    </a>
+  </header>
+  <main class="work">
+    <a id="back" class="back-link" href="./">← Back to Gallery</a>
+    <p id="work-status" class="notice" role="status">Loading work…</p>
+    <article id="work" hidden>
+      <header class="work-heading">
+        <div>
+          <h1 id="title"></h1>
+          <p>Created by <strong id="creator"></strong></p>
+        </div>
+        <button id="share" type="button" class="primary">Copy Link</button>
+      </header>
+      <p id="share-status" class="share-status" role="status" hidden></p>
+      <div class="layout">
+        <div class="stage-wrap">
+          <div class="stage" id="stage">
+            <div id="loading" class="loading">Starting 3D viewer…</div>
+          </div>
+          <div class="stage-actions">
+            <button id="frame" type="button" disabled>Reset View</button>
+            <button id="recolor" type="button" disabled>Randomize Colors</button>
+            <button id="restore" type="button" disabled>Restore Materials</button>
+            <label class="file-button">Open Local Model<input id="file" type="file" accept=".usd,.usda,.usdc,.usdz,.glb,.gltf" disabled></label>
+          </div>
+          <p id="status" class="status" role="status"></p>
+        </div>
+        <aside class="details" aria-label="Work details and controls">
+          <section id="about-work" class="detail-panel" hidden>
+            <h2>About</h2>
+            <p id="description"></p>
+          </section>
+          <section class="detail-panel" id="interaction-panel" hidden>
+            <h2>Model Controls</h2>
+            <div id="controls"></div>
+          </section>
+          <section class="detail-panel">
+            <h2>Downloads</h2>
+            <div id="downloads"></div>
+          </section>
+        </aside>
+      </div>
+    </article>
+  </main>
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "schema": "atlantis-gallery-interactions/1",
+  "joints": [
+    {"id":"door", "label":"Door Angle", "node":"Door", "kind":"rotation", "axis":[0,-1,0], "limits":[0,1.45], "initial":0, "speed":1.2}
+  ],
+  "buttons": [
+    {"id":"toggle-door", "label":"Toggle Cabinet Door", "action":"toggle", "joint":"door", "values":[0,1.45]}
+  ]
+}
