@@ -47,4 +47,6 @@ Three.js imports USD, USDA, USDC, USDZ, and GLB/glTF while preserving the part h
 
 ## Atlantis sharing integration
 
-The gallery can copy links to works already in the catalog. One-click publishing in the client, packaging modeling code and complete work orders, and GitHub-backed likes and favorites are pending. The planned entry point is the Atlantis WebGPU model view. After the creator confirms what to share, the publisher uploads the model, interactions, code, work orders, and thumbnail, updates the catalog, and returns the work link.
+Use the [Share a Model guide](https://zhxx1987.github.io/AtlantisGallery/publish.html) to connect the local Gallery MCP. The assistant prepares a `submission.json` from the final Atlantis export and calls `prepare_gallery_upload` to show the files that will become public. Once the creator approves that package, `publish_gallery_asset` uploads it using Git Credential Manager. The Gallery owner publishes directly. Other contributors submit from their own GitHub fork and receive a pull request and work URL. GitHub Pages serves the work URL after the pull request is merged and the site is rebuilt.
+
+The MCP packages the USD or GLB and its dependencies, original motion scripts, modeling source, and an optional public work-order JSON. Only the explicitly listed files are packaged. Browser controls use the interaction schema documented above.

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f5ed">
+  <title>Share a Model · Atlantis Gallery</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./" aria-label="Atlantis Gallery home">
+      <span class="mark" aria-hidden="true">A<span>✳</span></span>
+      <span>ATLANTIS <b>GALLERY</b></span>
+    </a>
+  </header>
+  <main class="work publish-guide">
+    <a class="back-link" href="./">← Back to Gallery</a>
+    <h1>Share a Model</h1>
+    <p>Connect Atlantis Gallery MCP once. When a modeling task is ready, ask your Atlantis assistant to share it, then confirm the files you want to make public.</p>
+
+    <section>
+      <h2>Connect to Codex on Windows</h2>
+      <p>Install Python 3.11 or later and Git for Windows with Git Credential Manager. Run these commands in PowerShell, then restart Codex.</p>
+      <pre><code>git credential-manager github login
+git clone https://github.com/zhxx1987/AtlantisGallery.git
+Set-Location AtlantisGallery
+python -m venv .venv
+&amp; .\.venv\Scripts\python.exe -m pip install -r publisher/requirements.txt
+codex mcp add atlantis-gallery -- (Resolve-Path .\.venv\Scripts\python.exe).Path (Resolve-Path .\publisher\server.py).Path</code></pre>
+      <p>For another MCP client, use the virtual environment’s Python executable as the command and the absolute path to <code>publisher/server.py</code> as its argument. The connection uses stdio.</p>
+    </section>
+
+    <section>
+      <h2>Share from an Atlantis modeling chat</h2>
+      <blockquote>Share this asset to Atlantis Gallery. Prepare a submission from the final model, textures, motion files, modeling code, and the work order I approve. Show me every file before publishing.</blockquote>
+      <p>Review the list from <code>prepare_gallery_upload</code>. After you approve the public upload, <code>publish_gallery_asset</code> uploads the files using your GitHub account and opens a pull request. Once Gallery maintainers merge it and GitHub Pages updates, your work link is live. The Gallery owner publishes directly.</p>
+    </section>
+
+    <section>
+      <h2>Describe the export</h2>
+      <p>The assistant writes <code>submission.json</code> next to the export. All paths are relative to that file. Supply an English title, your display name, a rendered thumbnail, and the files you want to share.</p>
+      <pre><code>{
+  "schema": "atlantis-gallery-submission/1",
+  "slug": "hinged-cabinet",
+  "title": "Hinged Cabinet",
+  "creator": "Your Display Name",
+  "model": "cabinet.usd",
+  "thumbnail": "preview.webp",
+  "previewFiles": ["textures/oak.png"],
+  "modelFiles": ["scene.usd"],
+  "interaction": "interaction.json",
+  "motionFiles": ["motion/cabinet.py"],
+  "sourceFiles": ["modeling/build_cabinet.py"],
+  "workOrder": "work-order.json"
+}</code></pre>
+      <ul>
+        <li>List dependencies required by the web preview in <code>previewFiles</code>, with the paths the model expects. Use a browser-ready USD or GLB export.</li>
+        <li>Use <code>modelFiles</code> for additional USD layers and <code>motionFiles</code> for the original motion scripts. These join the model and preview dependencies in the model download.</li>
+        <li>List the final modeling code for every part and its required data in <code>sourceFiles</code>.</li>
+        <li>Include <code>workOrder</code> only if you approve the complete JSON for public download. Review it for private information before sharing.</li>
+        <li>Provide <code>interaction</code> for browser controls. It maps part paths to joints, buttons, and emit events. The existing microwave uses the shared Python profile. New Python profiles require a Gallery adapter. <a href="https://github.com/zhxx1987/AtlantisGallery#work-data">View the interaction format</a>.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
