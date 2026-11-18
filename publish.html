@@ -22,13 +22,15 @@
     <section>
       <h2>Connect to Codex on Windows</h2>
       <p>Install Python 3.11 or later and Git for Windows with Git Credential Manager. Run these commands in PowerShell, then restart Codex.</p>
-      <pre><code>git credential-manager github login
+      <pre><code>$galleryUser = Read-Host 'Your GitHub username'
+git credential-manager github login --username $galleryUser
 git clone https://github.com/zhxx1987/AtlantisGallery.git
 Set-Location AtlantisGallery
 python -m venv .venv
 &amp; .\.venv\Scripts\python.exe -m pip install -r publisher/requirements.txt
-codex mcp add atlantis-gallery -- (Resolve-Path .\.venv\Scripts\python.exe).Path (Resolve-Path .\publisher\server.py).Path</code></pre>
-      <p>For another MCP client, use the virtual environment’s Python executable as the command and the absolute path to <code>publisher/server.py</code> as its argument. The connection uses stdio.</p>
+codex mcp add atlantis-gallery --env "ATLANTIS_GALLERY_GITHUB_USER=$galleryUser" -- `
+  (Resolve-Path .\.venv\Scripts\python.exe).Path (Resolve-Path .\publisher\server.py).Path</code></pre>
+      <p>For another MCP client, select stdio, use the virtual environment’s Python executable as the command, and pass the absolute path to <code>publisher/server.py</code> as its argument. Set <code>ATLANTIS_GALLERY_GITHUB_USER</code> to the GitHub username you signed in with.</p>
     </section>
 
     <section>

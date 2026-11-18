@@ -1,5 +1,6 @@
 """Local MCP publisher for the public Atlantis Gallery on GitHub Pages."""
 
+from itertools import count
 import json
 import os
 from pathlib import Path
@@ -32,9 +33,10 @@ def git(*args, cwd=None, stdin=None):
     env = {**os.environ, 'GIT_TERMINAL_PROMPT': '0', 'GCM_INTERACTIVE': 'Never'}
     proxy = env.get('HTTPS_PROXY') or env.get('https_proxy')
     config = ['-c', f'http.proxy={proxy}'] if proxy else []
+    input_options = {'stdin': subprocess.DEVNULL} if stdin is None else {'input': stdin}
     result = subprocess.run(
-        ['git', *config, *args], cwd=cwd, env=env, input=stdin, encoding='utf-8',
-        errors='replace', capture_output=True, timeout=240, check=False,
+        ['git', *config, *args], cwd=cwd, env=env, **input_options,
+        encoding='utf-8', errors='replace', capture_output=True, timeout=240, check=False,
     )
     if result.returncode:
         if args[0] == 'credential':
@@ -45,7 +47,16 @@ def git(*args, cwd=None, stdin=None):
 
 class GitHub:
     def __init__(self):
-        credential = git('credential', 'fill', stdin='protocol=https\nhost=github.com\n\n')
+        expected_login = os.environ.get('ATLANTIS_GALLERY_GITHUB_USER', '').strip()
+        if expected_login and not re.fullmatch(r'[A-Za-z0-9-]+', expected_login):
+            raise ValueError('Set ATLANTIS_GALLERY_GITHUB_USER to your GitHub username.')
+        fields = ['protocol=https', 'host=github.com']
+        if expected_login:
+            fields.append('username=' + expected_login)
+        try:
+            credential = git('credential', 'fill', stdin='\n'.join(fields) + '\n\n')
+        except ValueError as error:
+            raise ValueError(f'{error} With multiple GitHub accounts, set ATLANTIS_GALLERY_GITHUB_USER in the MCP configuration.') from None
         token = dict(line.split('=', 1) for line in credential.splitlines() if '=' in line).get('password')
         if not token:
             raise ValueError('Sign in to Git Credential Manager using git credential-manager github login.')
@@ -54,6 +65,8 @@ class GitHub:
         self.login = user['login']
         if not re.fullmatch(r'[A-Za-z0-9-]+', self.login):
             raise ValueError('Could not verify the GitHub account.')
+        if expected_login and self.login.lower() != expected_login.lower():
+            raise ValueError('The signed-in GitHub account differs from ATLANTIS_GALLERY_GITHUB_USER.')
         self.email = f"{user['id']}+{self.login}@users.noreply.github.com"
 
     def request(self, path, payload=None, missing=False):
@@ -87,6 +100,19 @@ class GitHub:
             raise ValueError('The GitHub account needs a ready fork of AtlantisGallery under its original repository name.')
         return f'https://github.com/{self.login}/AtlantisGallery.git'
 
+    def pending_submission(self, branch_prefix):
+        fork_name = f'{self.login}/AtlantisGallery'.lower()
+        for page in count(1):
+            params = urlencode({'state': 'open', 'base': MAIN, 'per_page': 100, 'page': page})
+            pulls = self.request(f'/repos/{REPO}/pulls?{params}')
+            for pull in pulls:
+                head = pull['head']
+                source = head.get('repo') or {}
+                if head['ref'].startswith(branch_prefix) and source.get('full_name', '').lower() == fork_name:
+                    return pull
+            if len(pulls) < 100:
+                return None
+
     def submit(self, plan, package, temp):
         owner = self.login.lower() == OWNER
         slug = plan['metadata']['slug']
@@ -101,12 +127,10 @@ class GitHub:
         branch_prefix = f"gallery/{asset_id}-{plan['approval_digest'][:12]}-"
         if not owner:
             fork = self.fork()
-            params = urlencode({'state': 'open', 'head': self.login, 'base': MAIN, 'per_page': 100})
-            active = self.request(f'/repos/{REPO}/pulls?{params}')
-            for pull in active:
-                if pull['head']['ref'].startswith(branch_prefix) and pull['head']['repo']['full_name'].lower() == f'{self.login}/AtlantisGallery'.lower():
-                    return {'status': 'submitted', 'id': asset_id, 'pull_request_url': pull['html_url'],
-                            'gallery_url_after_merge': work_url}
+            pending = self.pending_submission(branch_prefix)
+            if pending:
+                return {'status': 'submitted', 'id': asset_id, 'pull_request_url': pending['html_url'],
+                        'gallery_url_after_merge': work_url}
 
         title = plan['metadata']['title']
         git('add', '--', 'catalog.json', f'models/{asset_id}', cwd=checkout)
