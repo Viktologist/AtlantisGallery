@@ -3,7 +3,7 @@
 from itertools import count
 import re
 
-from package_asset import read_json, write_json
+from .package_asset import read_json, write_json
 
 
 def graphql(github, query, **variables):

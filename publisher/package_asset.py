@@ -3,6 +3,7 @@
 import hashlib
 import json
 from pathlib import Path, PurePosixPath
+import posixpath
 import re
 import shutil
 from urllib.parse import quote
@@ -11,8 +12,12 @@ from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
 MODEL_TYPES = {'.usd', '.usda', '.usdc', '.usdz', '.glb', '.gltf'}
 IMAGE_TYPES = {'.png', '.jpg', '.jpeg', '.webp'}
-DEPENDENCY_TYPES = MODEL_TYPES | IMAGE_TYPES | {'.bin', '.ktx2', '.exr', '.hdr'}
-MAX_FILE = 100 * 1024 * 1024
+DEPENDENCY_TYPES = MODEL_TYPES | IMAGE_TYPES | {'.bin', '.ktx2', '.exr', '.hdr', '.py', '.json'}
+MAX_PREVIEW_FILE = 100 * 1024 * 1024
+MAX_PREVIEW_TOTAL = 900 * 1024 * 1024
+MAX_RELEASE_FILE = 2 * 1024 * 1024 * 1024
+MAX_THUMBNAIL = 1024 * 1024
+STORAGE = 'creator-pages-and-releases/1'
 SCHEMA = 'atlantis-gallery-submission/1'
 
 
@@ -87,6 +92,8 @@ def stage_package(manifest, output):
     if not sources:
         raise ValueError('List the final modeling code for all parts in sourceFiles.')
     thumbnail = relative_file(root, data.get('thumbnail'), IMAGE_TYPES)
+    if thumbnail.stat().st_size > MAX_THUMBNAIL:
+        raise ValueError('Use a thumbnail no larger than 1 MiB. Only the thumbnail and catalog entry go to Gallery.')
     interaction = None
     if data.get('interaction'):
         interaction = relative_file(root, data['interaction'], {'.json'})
@@ -96,8 +103,23 @@ def stage_package(manifest, output):
         }:
             raise ValueError('Use a supported Gallery interaction schema.')
         logic = spec.get('logic')
-        if logic is not None and (not isinstance(logic, dict) or logic.get('profile') != 'microwave'):
-            raise ValueError('Use declarative actions or a Python profile already supported by Gallery.')
+        if logic is not None:
+            if not isinstance(logic, dict) or not (
+                logic.get('profile') == 'microwave' or (
+                    logic.get('schema') == 'atlantis-python-motion/1'
+                    and logic.get('profile') == 'tiger-ii'
+                )
+            ):
+                raise ValueError('Use declarative actions or a Python profile already supported by Gallery.')
+            if logic.get('schema') == 'atlantis-python-motion/1':
+                # Vehicle references are relative to the preview model, just as in the browser.
+                for field in ('module', 'config'):
+                    reference = logic.get(field)
+                    if not isinstance(reference, str) or not reference or '\\' in reference or ':' in reference or reference.startswith('/'):
+                        raise ValueError(f'logic.{field} must be a relative preview file.')
+                    name = posixpath.normpath(posixpath.join(posixpath.dirname(model), reference))
+                    if name not in preview:
+                        raise ValueError(f'List the vehicle {field} in previewFiles: {name}')
         model_archive[data['interaction']] = interaction
     work_order = None
     if data.get('workOrder'):
@@ -105,6 +127,12 @@ def stage_package(manifest, output):
         if not isinstance(read_json(work_order), (dict, list)):
             raise ValueError('workOrder must be a JSON object or array.')
 
+    preview_bytes = sum(path.stat().st_size for path in preview.values())
+    if preview_bytes > MAX_PREVIEW_TOTAL:
+        raise ValueError('The preview exceeds 900 MiB. Optimize the web preview; complete files can remain in the release downloads.')
+    for name, path in preview.items():
+        if path.stat().st_size >= MAX_PREVIEW_FILE:
+            raise ValueError(f'{name} exceeds the 100 MiB preview Git file limit. Optimize or split the preview export.')
     output.mkdir(parents=True)
     for name, source in preview.items():
         dest = output / 'preview' / name
@@ -128,21 +156,40 @@ def stage_package(manifest, output):
         shutil.copyfile(work_order, output / 'work-order.json')
         metadata['downloads'].append({'label': 'Download Work Order', 'file': 'work-order.json'})
 
-    digest = hashlib.sha256(json.dumps(metadata, sort_keys=True).encode())
+    storage = {
+        'schema': STORAGE,
+        'repository_name': 'atlantis-' + slug,
+        'repository_owner': 'signed-in GitHub creator',
+        'preview_host': 'creator repository GitHub Pages',
+        'downloads_host': 'creator repository GitHub Releases',
+        'gallery_files': ['catalog.json (entry only)', 'models/<asset-id>/' + thumbnail_name],
+        'generated_creator_files': ['.atlantis-gallery.json', '.gitattributes', '.nojekyll', 'index.html', '<version>/publication.json'],
+    }
+    digest = hashlib.sha256(json.dumps({'metadata': metadata, 'storage': storage}, sort_keys=True).encode())
     public_files = []
     for path in sorted(output.rglob('*')):
         if not path.is_file():
             continue
         name = path.relative_to(output).as_posix()
         size = path.stat().st_size
-        if size >= MAX_FILE:
-            raise ValueError(f'{name} exceeds the GitHub file limit for this upload.')
+        if size >= MAX_RELEASE_FILE:
+            raise ValueError(f'{name} exceeds the 2 GiB release asset limit. Split the download package.')
         with path.open('rb') as stream:
             checksum = hashlib.file_digest(stream, 'sha256').hexdigest()
-        public_files.append({'file': name, 'bytes': size, 'sha256': checksum})
+        destination = 'creator-releases' if name in {'model.zip', 'modeling-code.zip', 'work-order.json'} else 'creator-pages'
+        if name == thumbnail_name:
+            destination = 'gallery-thumbnail'
+        if destination == 'creator-pages' and size >= MAX_PREVIEW_FILE:
+            raise ValueError(f'{name} exceeds the 100 MiB preview file limit.')
+        if destination == 'gallery-thumbnail' and size > MAX_THUMBNAIL:
+            raise ValueError('The thumbnail exceeds 1 MiB.')
+        public_files.append({'file': name, 'bytes': size, 'sha256': checksum, 'destination': destination})
     digest.update(json.dumps(public_files, sort_keys=True).encode())
+    if sum(item['bytes'] for item in public_files if item['destination'] == 'creator-pages') > MAX_PREVIEW_TOTAL:
+        raise ValueError('The preview exceeds 900 MiB.')
     return {
         'metadata': metadata,
+        'storage': storage,
         'files': public_files,
         'model_archive_contents': sorted(model_archive),
         'code_archive_contents': sorted(sources),
@@ -151,31 +198,50 @@ def stage_package(manifest, output):
     }
 
 
-def add_to_catalog(checkout, asset_id, package, plan):
-    catalog_file = checkout / 'catalog.json'
-    catalog = read_json(catalog_file)
-    base = f'./models/{asset_id}/'
+def catalog_entry(asset_id, plan, hosting):
+    """Resolve public URLs without copying asset bytes into the Gallery repository."""
+    base = hosting['preview_base_url'].rstrip('/') + '/'
     entry = {'id': asset_id, **plan['metadata']}
     del entry['slug']
-    for field in ('model', 'thumbnail', 'interaction'):
+    for field in ('model', 'interaction'):
         if field in entry:
             entry[field] = base + entry[field]
+    entry['thumbnail'] = f'./models/{asset_id}/' + entry['thumbnail']
     entry['downloads'] = [
-        {'label': item['label'], 'url': base + item['file']} for item in entry['downloads']
+        {'label': item['label'], 'url': hosting['download_urls'][item['file']]}
+        for item in entry['downloads']
     ]
+    entry['assetRepository'] = hosting['repository_url']
+    return entry
+
+
+def check_catalog_slot(checkout, asset_id, entry):
+    catalog = read_json(checkout / 'catalog.json')
+    existing = next((item for item in catalog if item['id'] == asset_id), None)
+    if existing and existing != entry:
+        raise ValueError(f'{asset_id} already exists. Pick a new slug to submit a new work.')
+    destination = checkout / 'models' / asset_id
+    if not existing and destination.exists():
+        raise ValueError(f'{asset_id} already has Gallery files. Pick a new slug.')
+
+
+def add_to_catalog(checkout, asset_id, package, plan, hosting):
+    catalog_file = checkout / 'catalog.json'
+    catalog = read_json(catalog_file)
+    entry = catalog_entry(asset_id, plan, hosting)
+    check_catalog_slot(checkout, asset_id, entry)
 
     existing = next((item for item in catalog if item['id'] == asset_id), None)
     destination = checkout / 'models' / asset_id
     if existing or destination.exists():
-        if existing == entry and all(
-            (destination / item['file']).is_file()
-            and hashlib.sha256((destination / item['file']).read_bytes()).hexdigest() == item['sha256']
-            for item in plan['files']
-        ):
+        thumbnail = destination / plan['metadata']['thumbnail']
+        expected = next(item for item in plan['files'] if item['destination'] == 'gallery-thumbnail')
+        if existing == entry and thumbnail.is_file() and hashlib.sha256(thumbnail.read_bytes()).hexdigest() == expected['sha256']:
             return False
         raise ValueError(f'{asset_id} already exists. Pick a new slug to submit a new work.')
 
-    shutil.copytree(package, destination)
+    destination.mkdir(parents=True)
+    shutil.copyfile(package / plan['metadata']['thumbnail'], destination / plan['metadata']['thumbnail'])
     catalog.insert(0, entry)
     write_json(catalog_file, catalog)
     return True

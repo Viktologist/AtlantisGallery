@@ -17,27 +17,31 @@
   <main class="work publish-guide">
     <a class="back-link" href="./">← Back to Gallery</a>
     <h1>Share a Model</h1>
-    <p>Connect Atlantis Gallery MCP once. When a modeling task is ready, ask your Atlantis assistant to share it, then confirm the files you want to make public.</p>
+    <p>Update your existing Atlantis client. When a modeling task is ready, ask your Atlantis assistant to share it, then confirm the files you want to make public.</p>
 
     <section>
-      <h2>Connect to Codex on Windows</h2>
-      <p>Install Python 3.11 or later and Git for Windows with Git Credential Manager. Run these commands in PowerShell, then restart Codex.</p>
+      <h2>Prepare your GitHub account</h2>
+      <p>The current Atlantis client includes the Gallery publisher. Update the existing installation using the <a href="https://192.168.6.152:18884/client-update.txt">client update guide</a>, then reload Codex once to discover the new tools. Install Git for Windows with Git Credential Manager and sign in to your own GitHub account:</p>
       <pre><code>$galleryUser = Read-Host 'Your GitHub username'
-git credential-manager github login --username $galleryUser
-git clone https://github.com/zhxx1987/AtlantisGallery.git
-Set-Location AtlantisGallery
-python -m venv .venv
-&amp; .\.venv\Scripts\python.exe -m pip install -r publisher/requirements.txt
-codex mcp add atlantis-gallery --env "ATLANTIS_GALLERY_GITHUB_USER=$galleryUser" -- `
-  (Resolve-Path .\.venv\Scripts\python.exe).Path (Resolve-Path .\publisher\server.py).Path</code></pre>
-      <p>For another MCP client, select stdio, use the virtual environment’s Python executable as the command, and pass the absolute path to <code>publisher/server.py</code> as its argument. Set <code>ATLANTIS_GALLERY_GITHUB_USER</code> to the GitHub username you signed in with.</p>
+git credential-manager github login --username $galleryUser</code></pre>
+      <p>For multiple GitHub accounts, set <code>ATLANTIS_GALLERY_GITHUB_USER</code> to the intended username in your Atlantis MCP environment. Never paste a token into a chat.</p>
     </section>
-
     <section>
       <h2>Share from an Atlantis modeling chat</h2>
-      <blockquote>Share this asset to Atlantis Gallery. Prepare a submission from the final model, textures, motion files, modeling code, and the work order I approve. Convert all user-visible interaction text in the upload package to English and verify the controls in the browser preview. Keep my creator name and control mappings. Show me every file before publishing.</blockquote>
-      <p>Review the list from <code>prepare_gallery_upload</code>. After you approve the public upload, <code>publish_gallery_asset</code> uploads the files using your GitHub account and opens a pull request. Once Gallery maintainers merge it and GitHub Pages updates, your work link is live. The Gallery owner publishes directly.</p>
+      <blockquote>Share this asset to Atlantis Gallery. Prepare a submission from the final model, textures, motion files, modeling code, and the work order I approve. Convert all user-visible interaction text in the upload package to English and verify the controls in the browser preview. Keep my creator name and control mappings. Show me every public file and its storage destination before publishing.</blockquote>
+      <p><code>atlantis_gallery_prepare</code> creates a local package and lists its files, archive members, checksums and destinations. After you approve that exact public plan, <code>atlantis_gallery_publish</code> uses your GitHub account to publish it. Changed files require a new plan and approval.</p>
+      <ul>
+        <li>Your public <code>atlantis-&lt;slug&gt;</code> repository hosts preview models, textures and browser motion logic through GitHub Pages.</li>
+        <li>GitHub Releases in that repository host the complete model and motion archive, all final modeling code, and the optional approved work-order JSON.</li>
+        <li>The main Gallery receives only a catalog entry and a thumbnail of at most 1 MiB. Your work page keeps your creator name, downloads, interactive preview and social links.</li>
+      </ul>
+      <p>The publisher verifies Pages access, browser CORS and file hashes before submitting the Gallery entry. Pages may need time to deploy; retry the same approved digest to resume without duplicate downloads. Contributors receive a pull request; work appears after maintainers merge it and Gallery Pages deploys. The Gallery owner publishes directly.</p>
+      <p>Preview files must each be smaller than 100 MiB, total at most 900 MiB. Each Release download must be smaller than 2 GiB. Optimize oversized previews before publishing.</p>
+      <p>The WebGPU viewer's <q>Share To Atlantis Gallery</q> button opens this guide. Publication still requires your reviewed file plan.</p>
     </section>
+    <details><summary>Existing standalone Gallery MCP installations</summary>
+      <p>They remain supported. Run <code>git pull --ff-only</code> inside the existing AtlantisGallery checkout and restart that MCP. Its tools remain <code>prepare_gallery_upload</code> and <code>publish_gallery_asset</code>. New Atlantis users do not need a second MCP or Python environment.</p>
+    </details>
 
     <section id="english-interactions">
       <h2>Use English for model interactions before packaging</h2>
@@ -46,7 +50,7 @@ codex mcp add atlantis-gallery --env "ATLANTIS_GALLERY_GITHUB_USER=$galleryUser"
         <li>Translate button captions, menus, switches, field labels, control hints, keyboard and mouse instructions, tooltips, status text, and messages shown by the motion or control scripts.</li>
         <li>Check <code>interaction.json</code>, Python and browser control scripts, and any visible operating text on the model. Vehicle and viewport mode controls must also use English, for example <q>Drive Mode (F1)</q>, <q>Viewport Mode (Esc)</q>, and <q>WASD: Drive · Mouse: Look and Aim</q>.</li>
         <li>Keep the creator's chosen display name, prim paths, joint and event IDs, binding keys, keyboard mappings, and motion behavior. Change display text without renaming machine identifiers.</li>
-        <li>Operate the actual browser preview before calling <code>prepare_gallery_upload</code>. Verify the English text, buttons, keyboard and mouse controls, and linked part movement. Resolve missing browser adapters before presenting the package as ready.</li>
+        <li>Operate the actual browser preview before preparing the upload. Verify the English text, buttons, keyboard and mouse controls, and linked part movement. Resolve missing browser adapters before presenting the package as ready.</li>
       </ul>
     </section>
 
@@ -61,7 +65,7 @@ codex mcp add atlantis-gallery --env "ATLANTIS_GALLERY_GITHUB_USER=$galleryUser"
   "model": "cabinet.usd",
   "thumbnail": "preview.webp",
   "previewFiles": ["textures/oak.png"],
-  "modelFiles": ["scene.usd"],
+  "modelFiles": ["cabinet-detail.usd"],
   "interaction": "interaction.json",
   "motionFiles": ["motion/cabinet.py"],
   "sourceFiles": ["modeling/build_cabinet.py"],
@@ -72,7 +76,7 @@ codex mcp add atlantis-gallery --env "ATLANTIS_GALLERY_GITHUB_USER=$galleryUser"
         <li>Use <code>modelFiles</code> for additional USD layers and <code>motionFiles</code> for the original motion scripts. These join the model and preview dependencies in the model download.</li>
         <li>List the final modeling code for every part and its required data in <code>sourceFiles</code>.</li>
         <li>Include <code>workOrder</code> only if you approve the complete JSON for public download. Review it for private information before sharing.</li>
-        <li>Provide <code>interaction</code> for browser controls. It maps part paths to joints, buttons, and emit events. The existing microwave uses the shared Python profile. New Python profiles require a Gallery adapter. <a href="https://github.com/zhxx1987/AtlantisGallery#work-data">View the interaction format</a>.</li>
+        <li>Provide <code>interaction</code> for browser controls. It maps part paths to joints, buttons, and emit events. The existing microwave uses the shared Python profile. The Tiger II profile loads its pure Python module and motion configuration from explicitly listed preview dependencies. Other new Python profiles require a Gallery adapter. <a href="https://github.com/zhxx1987/AtlantisGallery#work-data">View the interaction format</a>.</li>
       </ul>
     </section>
   </main>
