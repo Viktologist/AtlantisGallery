@@ -1,0 +1,164 @@
+{
+  "schema": "aps-webgpu-scene/1",
+  "coordinates": "metres/Y-up",
+  "title": "Tiger II · 游戏驱动 / Python",
+  "assets": [
+    {
+      "id": "tiger_ii",
+      "kind": "glb",
+      "file": "tiger_ii.glb",
+      "sha256": "af1637ad533e6786ccb20461bc1d5d744e394a10f3eb5d1e194b82e1d33649fc"
+    }
+  ],
+  "camera": {
+    "position": [
+      17,
+      9,
+      -19
+    ],
+    "target": [
+      1.576,
+      0.9,
+      0
+    ],
+    "fov": 36,
+    "near": 0.02,
+    "far": 150
+  },
+  "cameras": {
+    "front": {
+      "position": [
+        17,
+        3.5,
+        0
+      ],
+      "target": [
+        1.576,
+        0.9,
+        0
+      ],
+      "fov": 36,
+      "near": 0.02,
+      "far": 150
+    },
+    "rear": {
+      "position": [
+        -16,
+        4,
+        0
+      ],
+      "target": [
+        1.576,
+        0.9,
+        0
+      ],
+      "fov": 36,
+      "near": 0.02,
+      "far": 150
+    },
+    "left": {
+      "position": [
+        1.576,
+        3.4,
+        -24
+      ],
+      "target": [
+        1.576,
+        0.9,
+        0
+      ],
+      "fov": 36,
+      "near": 0.02,
+      "far": 150
+    },
+    "right": {
+      "position": [
+        1.576,
+        3.4,
+        24
+      ],
+      "target": [
+        1.576,
+        0.9,
+        0
+      ],
+      "fov": 36,
+      "near": 0.02,
+      "far": 150
+    },
+    "top": {
+      "position": [
+        1.576,
+        23,
+        0.001
+      ],
+      "target": [
+        1.576,
+        0.9,
+        0
+      ],
+      "fov": 36,
+      "near": 0.02,
+      "far": 150
+    },
+    "overview": {
+      "position": [
+        17,
+        9,
+        -19
+      ],
+      "target": [
+        1.576,
+        0.9,
+        0
+      ],
+      "fov": 36,
+      "near": 0.02,
+      "far": 150
+    },
+    "sprocket_left": {
+      "position": [
+        4.8,
+        0.9,
+        -4.3
+      ],
+      "target": [
+        2.8,
+        0.1,
+        -1.42
+      ],
+      "fov": 35,
+      "near": 0.02,
+      "far": 150
+    },
+    "sprocket_right": {
+      "position": [
+        4.8,
+        0.9,
+        4.3
+      ],
+      "target": [
+        2.8,
+        0.1,
+        1.42
+      ],
+      "fov": 35,
+      "near": 0.02,
+      "far": 150
+    }
+  },
+  "environment": {
+    "weather": {
+      "sunDirection": [
+        0.4,
+        0.8,
+        -0.5
+      ],
+      "iblIntensity": 2.0,
+      "aerialEnabled": false
+    },
+    "post": {
+      "exposureCompensation": 1.0
+    }
+  }
+}

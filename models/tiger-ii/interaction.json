@@ -1,0 +1,10 @@
+{
+  "schema": "atlantis-gallery-interactions/2",
+  "logic": {
+    "profile": "tiger-ii",
+    "schema": "atlantis-python-motion/1",
+    "module": "../tiger_motion.py",
+    "config": "../tiger_config.json"
+  },
+  "actions": []
+}

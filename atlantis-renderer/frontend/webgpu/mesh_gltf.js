@@ -30,7 +30,7 @@ function packGLB(json,chunks) {
 }
 function validate(json) {
   for(const name of json.extensionsRequired??[])if(!SUPPORTED.has(name))throw Error(`Unsupported required glTF extension ${name}`);
-  for(const image of json.images??[])if(image.uri!==undefined&&!/^(data:|blob:)/.test(image.uri))throw Error('External glTF image URI is unsupported');
+  for(const image of json.images??[])if(image.uri!==undefined&&!/^(data:|blob:)/.test(image.uri)&&!(typeof image.uri==='string'&&!/[\\:%?#]/.test(image.uri)&&!image.uri.startsWith('/')&&image.uri.split('/').every(p=>p&&p!=='.'&&p!=='..')&&/\.(png|jpe?g|webp)$/i.test(image.uri)))throw Error('Unsupported glTF image URI');
   if((json.buffers??[]).some((b,i)=>i!==0||b.uri!==undefined))throw Error('External glTF buffers are unsupported');
   for(const a of json.accessors??[]) {
     if(!['SCALAR','VEC2','VEC3','VEC4','MAT2','MAT3','MAT4'].includes(a.type)||![5120,5121,5122,5123,5125,5126].includes(a.componentType)||!Number.isInteger(a.count)||a.count<0)throw Error('Invalid/unsupported glTF accessor');

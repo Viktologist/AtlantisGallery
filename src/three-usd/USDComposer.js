@@ -3787,6 +3787,7 @@ class USDComposer {
 		}
 
 		const image = new Image();
+		image.crossOrigin = 'anonymous';
 
 		this.texturePromises.push( new Promise( ( resolve ) => {
 

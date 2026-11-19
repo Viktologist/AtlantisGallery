@@ -60,8 +60,9 @@ export async function textureBank(parsed,url,signal,resources,{textureArray=true
       const image=parsed.images[index];if(!image)throw Error(`Missing glTF image ${index}`);
       let bytes=image.bytes,mime=image.mimeType;
       if(!bytes&&image.uri) {
-        if(!/^(data:|blob:)/.test(image.uri))throw Error('External glTF image URI is unsupported');
-        const response=await fetch(new URL(image.uri,url),{signal});if(!response.ok)throw Error(`Cannot fetch glTF image ${index} (${response.status})`);
+        const imageURL=new URL(image.uri,url);
+        if(!['data:','blob:'].includes(imageURL.protocol)&&(!['http:','https:'].includes(imageURL.protocol)||imageURL.origin!==new URL(url).origin))throw Error('glTF texture must share its model origin');
+        const response=await fetch(imageURL,{signal,credentials:'omit'});if(!response.ok)throw Error(`Cannot fetch glTF image ${index} (${response.status})`);
         bytes=new Uint8Array(await response.arrayBuffer());mime??=response.headers.get('content-type')?.split(';')[0];
       }
       if(!bytes||!['image/png','image/jpeg','image/webp'].includes(mime))throw Error(`Unsupported glTF image encoding ${mime??'(missing)'}`);

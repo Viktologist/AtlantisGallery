@@ -2,7 +2,25 @@ const PYODIDE_URL = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/';
 let python;
 let step;
 
-async function start(profile) {
+async function start(profile, descriptor) {
+  if (descriptor?.module) {
+    const response=await fetch(descriptor.module,{credentials:'omit'});
+    if(!response.ok)throw Error('Python module HTTP '+response.status);
+    const source=await response.text();
+    importScripts(PYODIDE_URL+'pyodide.js');
+    python=await loadPyodide({indexURL:PYODIDE_URL});
+    python.FS.writeFile('/asset_motion.py',source);
+    python.globals.set('asset_config_json',JSON.stringify(descriptor.config??{}));
+    python.runPython(`import json,sys
+sys.path.insert(0,'/')
+from asset_motion import create_runtime
+asset_runtime=create_runtime(json.loads(asset_config_json))
+def asset_step(events,elapsed):
+    return json.dumps(asset_runtime.step(json.loads(events),elapsed/1000.0))
+`);
+    step=python.globals.get('asset_step');
+    return;
+  }
   if (profile !== 'microwave') throw Error('This Python interaction module is unavailable');
   const response = await fetch(new URL('./logic/microwave_logic.py', self.location.href));
   if (!response.ok) throw Error('Could not load the microwave interaction module');
@@ -49,11 +67,11 @@ def gallery_step(events, elapsed):
 
 self.onmessage = async ({ data }) => {
   try {
-    if (data.profile) await start(data.profile);
+    if (data.init) await start(data.profile,data.descriptor);
     const snapshot = JSON.parse(step(JSON.stringify(data.events ?? []), data.elapsed ?? 0));
     self.postMessage({ snapshot });
   } catch (error) {
     console.error(error);
-    self.postMessage({ error: 'The Python interaction module stopped unexpectedly' });
+    self.postMessage({ error: String(error.message??error) });
   }
 };

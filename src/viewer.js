@@ -6,6 +6,8 @@ import { Viewer } from '../atlantis-renderer/frontend/webgpu/viewer.js';
 import { MotionRuntime } from './motion.js';
 import { installGalleryEffects } from './view-effects.js';
 import { prepareModelNormals } from './split-normals.js';
+import { installPythonVehicle } from './vehicle.js';
+import { instanceAwareBounds } from '../atlantis-renderer/frontend/webgpu/scene_bounds.js';
 
 export class GalleryViewer {
   constructor(stage, panel) {
@@ -51,6 +53,8 @@ export class GalleryViewer {
   }
 
   async load(url, spec = {}, name = url) {
+    if (spec.logic?.profile === 'tiger-ii') return this.loadVehicle(url, spec);
+    this.vehicleScale = null;
     const extension = name.split(/[?#]/)[0].split('.').pop().toLowerCase();
     let root, animations = [];
     if (['usd', 'usda', 'usdc', 'usdz'].includes(extension)) {
@@ -118,6 +122,7 @@ export class GalleryViewer {
       this.importUrl = new URL('./gallery-mesh.glb', import.meta.url).href;
       const committed = await this.native.loadMeshCandidate(this.importUrl, undefined, { preservePose: true });
       if (!committed) throw Error('Model import was canceled');
+      this.vehicle?.dispose();this.vehicle=null;
       this.motion?.dispose();
       if (this.root) this.disposeModel(this.root);
       this.root = root;
@@ -152,6 +157,31 @@ export class GalleryViewer {
     } finally {
       this.importBuffer = null;
       this.importUrl = null;
+    }
+  }
+
+  async loadVehicle(url, spec) {
+    const response = await fetch(url);
+    if (!response.ok) throw Error('Vehicle model HTTP ' + response.status);
+    this.importUrl = new URL(url, location.href).href;
+    this.importBuffer = await response.arrayBuffer();
+    try {
+      this.vehicle?.dispose();this.vehicle=null;
+      this.motion?.dispose();this.motion=null;
+      this.mixer=null;this.pairs=[];
+      if(this.root){this.disposeModel(this.root);this.root=null;}
+      if (!await this.native.loadMeshCandidate(this.importUrl, undefined, {preservePose:true})) throw Error('Vehicle import was canceled');
+      const box=instanceAwareBounds(this.native.meshAsset.root);
+      this.bounds=new THREE.Box3(new THREE.Vector3(...box.min.toArray()),new THREE.Vector3(...box.max.toArray()));
+      const size=this.bounds.getSize(new THREE.Vector3());
+      this.span=Math.max(size.x,size.y,size.z);
+      this.originals=[];
+      this.vehicleScale=1.35;
+      this.effects.setScale(this.span);this.frame();
+      this.vehicle=await installPythonVehicle(this.native,spec.logic,this.importUrl,this.panel);
+      return {meshes:0,errors:[]};
+    } finally {
+      this.importUrl=null;this.importBuffer=null;
     }
   }
 
@@ -199,9 +229,10 @@ export class GalleryViewer {
   }
 
   frame() {
+    this.vehicle?.exit();
     if (!this.bounds) return;
     const center = this.bounds.getCenter(new THREE.Vector3());
-    const distance = this.span * 2.8 * Math.max(1, .8 / this.native.camera.aspect);
+    const distance = this.span * (this.vehicleScale ?? 2.8) * Math.max(1, .8 / this.native.camera.aspect);
     const position = new THREE.Vector3(1, .6, 1.2).normalize().multiplyScalar(distance).add(center);
     this.native.setCamera({
       position: position.toArray(), target: center.toArray(), fov: 36,
