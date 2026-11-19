@@ -34,6 +34,8 @@ export class Ocean {
       if(this.disposed||v.disposed)throw Error('Ocean initialization cancelled');
     };
     if(!GPU.device)throw Error('Ocean requires the coordinator-initialized pinned GPU singleton');
+    const storageBuffers=GPU.limits.maxStorageBuffersPerShaderStage;
+    if(storageBuffers<11)throw Error(`Ocean rendering requires maxStorageBuffersPerShaderStage >= 11; this device supports ${storageBuffers}. Ordinary model viewing remains available.`);
     if(!v.scene||!v.camera||!v.meshRenderer||!v.sceneRenderer?.opaqueCopy)throw Error('Ocean requires engine scene/camera/meshRenderer/sceneRenderer.opaqueCopy');
     if(!v.lighting?.sky?.module)throw Error('Await viewer.lighting.init() before Ocean.init(): native sky.module is required');
     const fftThreads=this.config.fftSize/2,fftSharedBytes=this.config.fftSize*16;

@@ -68,8 +68,8 @@ export class Viewer {
   async init(){
     if(this.options.outdoor===false)throw Error('outdoor:false requires the accepted hemisphere/key/fill light transport; native multi-light parity is not implemented');
     await GPU.init({canvas:this.canvas,requiredLimits:{maxSampledTexturesPerShaderStage:48,maxTextureArrayLayers:2048,maxStorageBuffersPerShaderStage:16}});
-    const storageBuffers=GPU.limits.maxStorageBuffersPerShaderStage;
-    if(storageBuffers<11)throw Error(`WebGPU device initialized, but maxStorageBuffersPerShaderStage is ${storageBuffers} (minimum 11 required for water-rendering resources); this is not a missing WebGPU API or adapter.`);
+    // Optional ocean resources have their own limit check in Ocean.init().
+    // Ordinary model viewing must not require the ocean's storage-buffer budget.
     this.deviceHealth=watchDevice(GPU.device,()=>GPU.device,error=>{if(!this.disposed)this.reportError(error);});
     if(this.disposed)return this;this.originalAsync=GPU._async;this.pipelineHandleSet=new Set();this.asyncHook=(desc,kind)=>{const h=this.originalAsync.call(GPU,desc,kind);if(!this.disposed&&!this.pipelineHandleSet.has(h)){this.pipelineHandleSet.add(h);this.pipelineHandles.push(h);}return h;};GPU._async=this.asyncHook;
     this.gpuError=e=>{if(!this.disposed)this.reportError(e.error);};GPU.device.addEventListener('uncapturederror',this.gpuError);
