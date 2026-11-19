@@ -1,5 +1,25 @@
 [
   {
+    "id": "qwanp-cordless-vacuum-r5",
+    "title": "Cordless Vacuum R5",
+    "creator": "qwanp",
+    "description": "Articulated cordless vacuum with six independent joints, editable Python sources, USD and MJCF exports. Browser motion is a kinematic demonstration. Physics validation is incomplete: passive wheel rolling, motor torque and USD material fidelity remain open.",
+    "model": "https://qwanp.github.io/atlantis-cordless-vacuum-r5/gallery-eeffb7eba1e7936d354e185fac7cd576b6cd6ac72a5c52f7d5d1674f3dd6174a/preview/vacuum.glb",
+    "thumbnail": "./models/qwanp-cordless-vacuum-r5/preview.jpg",
+    "downloads": [
+      {
+        "label": "Download Model and Motion Files",
+        "url": "https://github.com/qwanp/atlantis-cordless-vacuum-r5/releases/download/gallery-eeffb7eba1e7936d354e185fac7cd576b6cd6ac72a5c52f7d5d1674f3dd6174a/model.zip"
+      },
+      {
+        "label": "Download Modeling Code",
+        "url": "https://github.com/qwanp/atlantis-cordless-vacuum-r5/releases/download/gallery-eeffb7eba1e7936d354e185fac7cd576b6cd6ac72a5c52f7d5d1674f3dd6174a/modeling-code.zip"
+      }
+    ],
+    "interaction": "https://qwanp.github.io/atlantis-cordless-vacuum-r5/gallery-eeffb7eba1e7936d354e185fac7cd576b6cd6ac72a5c52f7d5d1674f3dd6174a/interaction.json",
+    "assetRepository": "https://github.com/qwanp/atlantis-cordless-vacuum-r5"
+  },
+  {
     "id": "tiger-ii",
     "title": "Tiger II · King Tiger",
     "creator": "zhxx1987",
