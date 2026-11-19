@@ -1,5 +1,5 @@
 export async function loadCatalog() {
-  const response = await fetch('./catalog.json');
+  const response = await fetch('./catalog.json', { cache: 'no-cache' });
   if (!response.ok) throw new Error('Could not load the gallery catalog.');
   const catalog = await response.json();
   if (!Array.isArray(catalog)) throw new Error('Invalid gallery catalog format.');
