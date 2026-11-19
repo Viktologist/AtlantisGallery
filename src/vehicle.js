@@ -5,15 +5,15 @@ export async function installPythonVehicle(viewer,descriptor,modelURL,container)
   const response=await fetch(new URL(descriptor.config,modelURL));
   if(!response.ok)throw Error('Vehicle configuration HTTP '+response.status);
   const config=await response.json();
-  const p=document.createElement('section');p.setAttribute('aria-label','载具操作');container.replaceChildren(p);
-  const help=document.createElement('p');help.textContent='WASD 行驶 · 鼠标环绕/炮塔追随 · 右键调俯仰 · 滚轮缩放 · R 重置 · F1 操作 / ESC 视窗';p.append(help);
-  const mode=document.createElement('button');mode.textContent='F1 · 进入第三人称';p.append(mode);
+  const p=document.createElement('section');p.setAttribute('aria-label','Vehicle Controls');container.replaceChildren(p);
+  const help=document.createElement('p');help.textContent='WASD: drive · Mouse: orbit / turret aim · RMB: gun elevation · Wheel: zoom · R: reset · F1: vehicle / ESC: viewport';p.append(help);
+  const mode=document.createElement('button');mode.textContent='F1 · Enter Vehicle Mode';p.append(mode);
   const hatchButtons=[];
-  const labels={hull_hatch_L:'驾驶员舱盖',hull_hatch_R:'通信员舱盖',commander_hatch:'车长舱盖',loader_hatch:'装填手舱盖',turret_rear_hatch:'炮塔后舱门',engine_service_cover:'发动机检修盖'};
+  const labels={hull_hatch_L:'Driver Hatch',hull_hatch_R:'Radio Operator Hatch',commander_hatch:'Commander Hatch',loader_hatch:'Loader Hatch',turret_rear_hatch:'Turret Rear Hatch',engine_service_cover:'Engine Service Cover'};
   const styleButton=button=>Object.assign(button.style,{padding:'8px 10px',margin:'4px 4px 4px 0',border:'1px solid #78908366',borderRadius:'5px',background:'#e4eade',color:'#173c30',cursor:'pointer',font:'inherit'});
   styleButton(mode);
-  const reset=document.createElement('button');reset.textContent='重置';styleButton(reset);p.append(reset);
-  const output=document.createElement('output');output.style.display='block';output.textContent='正在启动 Python…';p.append(output);
+  const reset=document.createElement('button');reset.textContent='Reset';styleButton(reset);p.append(reset);
+  const output=document.createElement('output');output.style.display='block';output.textContent='Starting Python…';p.append(output);
   const abort=new AbortController(),keys=new Set(),physical=new Set(),blocked=new Set(),nodes=new Map();
   const required=['hull','turret_yaw','gun_elevation',...config.wheels.map(x=>x.name),...Object.values(config.links).flat().map(x=>x.name)];
   const controlled=new Set([...required,...Object.keys(config.hinges)]);
@@ -26,7 +26,7 @@ export async function installPythonVehicle(viewer,descriptor,modelURL,container)
   const setMode=value=>{
     enabled=value;keys.clear();rmb=false;viewer.controls.enabled=!value;
     for(const key of physical)blocked.add(key);
-    mode.textContent=value?'ESC · 返回视窗':'F1 · 进入第三人称';
+    mode.textContent=value?'ESC · Return to Viewport':'F1 · Enter Vehicle Mode';
     viewer.canvas.dataset.vehicleMode=value?'vehicle':'viewport';
     if(!value&&document.pointerLockElement===viewer.canvas)document.exitPointerLock();
     if(value){viewer.canvas.focus();viewer.canvas.requestPointerLock?.()?.catch(()=>{});}send();

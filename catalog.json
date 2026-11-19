@@ -3,13 +3,13 @@
     "id": "tiger-ii",
     "title": "Tiger II · King Tiger",
     "creator": "zhxx1987",
-    "description": "PBR Tiger II with WASD driving, procedural tracks and wheels, mouse orbit, rate-limited turret aiming and six hatch controls. F1 enters vehicle mode; ESC returns to viewport navigation.",
+    "description": "PBR Tiger II with English WASD and mouse controls, procedural tracks, and six hatch buttons. Download both Game and Real Physics Isaac runtimes, complete editable Python modeling code, and assembly instructions.",
     "model": "./models/tiger-ii/preview/model/tiger_ii.glb",
     "thumbnail": "./models/tiger-ii/preview.webp",
     "interaction": "./models/tiger-ii/interaction.json",
     "downloads": [
       {
-        "label": "Download USD + Motion + WebGPU Model",
+        "label": "Download USD + Game + Real Physics",
         "url": "https://github.com/zhxx1987/AtlantisGallery/releases/download/tiger-ii-realtime-v015/tiger-ii-model.zip"
       },
       {
@@ -20,6 +20,10 @@
         "label": "Download Work Order (JSON)",
         "url": "https://github.com/zhxx1987/AtlantisGallery/releases/download/tiger-ii-realtime-v015/tiger-ii-work-order.json"
       }
+    ],
+    "isaacRuntimes": [
+      "game",
+      "real-physics"
     ]
   },
   {

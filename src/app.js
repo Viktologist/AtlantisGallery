@@ -68,6 +68,11 @@ function isaacPrompt(item) {
   }
   return [
     `Assemble ${JSON.stringify(item.title)} in my Isaac Sim workspace.`,
+    ...(item.isaacRuntimes ? [
+      `Selected runtime: ${$('isaac-runtime').value}.`,
+      'Read ASSEMBLE_ISAAC.md and isaac-runtimes.json in the download first. Use the selected mode entry and its matching USD. Never run both controllers on the same tank.',
+      'Use assemble_isaac.py --mode ' + $('isaac-runtime').value + ' with Isaac Sim python.bat. Keep all controls and instructions in English.',
+    ] : []),
     `Gallery work — ${workUrl(item.id).href}`,
     '',
     'Use the model and motion downloads for assembly. Use the preview and interaction data as fallbacks.',
@@ -85,6 +90,7 @@ function isaacPrompt(item) {
 }
 
 function setupIsaacPrompt(item) {
+  $('isaac-runtime-choice').hidden = !item.isaacRuntimes;
   $('assemble-isaac').addEventListener('click', async () => {
     const prompt = isaacPrompt(item);
     const message = $('isaac-prompt-status');
