@@ -35,8 +35,19 @@ codex mcp add atlantis-gallery --env "ATLANTIS_GALLERY_GITHUB_USER=$galleryUser"
 
     <section>
       <h2>Share from an Atlantis modeling chat</h2>
-      <blockquote>Share this asset to Atlantis Gallery. Prepare a submission from the final model, textures, motion files, modeling code, and the work order I approve. Show me every file before publishing.</blockquote>
+      <blockquote>Share this asset to Atlantis Gallery. Prepare a submission from the final model, textures, motion files, modeling code, and the work order I approve. Convert all user-visible interaction text in the upload package to English and verify the controls in the browser preview. Keep my creator name and control mappings. Show me every file before publishing.</blockquote>
       <p>Review the list from <code>prepare_gallery_upload</code>. After you approve the public upload, <code>publish_gallery_asset</code> uploads the files using your GitHub account and opens a pull request. Once Gallery maintainers merge it and GitHub Pages updates, your work link is live. The Gallery owner publishes directly.</p>
+    </section>
+
+    <section id="english-interactions">
+      <h2>Use English for model interactions before packaging</h2>
+      <p>Before preparing an upload, convert all user-visible interaction text in the Gallery copy of the asset to English. This requirement applies to the model and its controls; your documentation and private conversation can remain in their original language.</p>
+      <ul>
+        <li>Translate button captions, menus, switches, field labels, control hints, keyboard and mouse instructions, tooltips, status text, and messages shown by the motion or control scripts.</li>
+        <li>Check <code>interaction.json</code>, Python and browser control scripts, and any visible operating text on the model. Vehicle and viewport mode controls must also use English, for example <q>Drive Mode (F1)</q>, <q>Viewport Mode (Esc)</q>, and <q>WASD: Drive · Mouse: Look and Aim</q>.</li>
+        <li>Keep the creator's chosen display name, prim paths, joint and event IDs, binding keys, keyboard mappings, and motion behavior. Change display text without renaming machine identifiers.</li>
+        <li>Operate the actual browser preview before calling <code>prepare_gallery_upload</code>. Verify the English text, buttons, keyboard and mouse controls, and linked part movement. Resolve missing browser adapters before presenting the package as ready.</li>
+      </ul>
     </section>
 
     <section>
