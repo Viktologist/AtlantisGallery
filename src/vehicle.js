@@ -38,12 +38,15 @@ export async function installPythonVehicle(viewer,descriptor,modelURL,container)
   };
   const logic=new PythonLogic({module,config},snapshot=>{
     if(disposed)return;
+    let transformsChanged=false;
     for(const [name,array]of Object.entries(snapshot.matrices??{})){
       const node=nodes.get(name);if(!node)throw Error('Motion node missing: '+name);
-      node.matrixAutoUpdate=false;node.matrix.fromArray(array);node.matrixWorldNeedsUpdate=true;
+      node.matrixAutoUpdate=false;
+      if(array.some((value,index)=>value!==node.matrix.elements[index])){node.matrix.fromArray(array);node.matrixWorldNeedsUpdate=true;transformsChanged=true;}
     }
-    last=snapshot;viewer.invalidateObjectTransforms?.([nodes.get('hull')]);
-    viewer.depthSnapshot=null;for(const cascade of viewer.shadows?.cascades??[])cascade.dirty=true;
+    last=snapshot;
+    // A worker heartbeat is not scene motion: preserve picking depth while the model is stationary.
+    if(transformsChanged){viewer.invalidateObjectTransforms?.([nodes.get('hull')]);viewer.depthSnapshot=null;for(const cascade of viewer.shadows?.cascades??[])cascade.dirty=true;}
     output.textContent=`Python · ${((snapshot.state.left_speed+snapshot.state.right_speed)*1.8).toFixed(1)} km/h`;
     viewer.canvas.dataset.pythonState=JSON.stringify(snapshot.state);
     viewer.canvas.dataset.pythonReady='true';camera();

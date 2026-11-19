@@ -49,14 +49,30 @@ export class PixelNavigation extends EventDispatcher {
   }
   update(){this.viewer.camera.lookAt(this.target);this.viewer.camera.updateMatrixWorld();}
   changed(){this.viewer.cameraRevision++;this.update();this.dispatchEvent({type:'change'});}
+  focusHit(x,y){
+    const c=this.viewer.camera,rect=this.element.getBoundingClientRect();
+    if(!rect.width||!rect.height)return null;
+    this.update();
+    const p=new Vector4((x-rect.left)/rect.width*2-1,1-(y-rect.top)/rect.height*2,.5,1).applyMatrix4(c.projectionMatrixInverse).applyMatrix4(c.matrixWorld);
+    const ray=new Vector3(p.x/p.w,p.y/p.w,p.z/p.w).sub(c.position).normalize(),forward=c.getWorldDirection(new Vector3()),denom=ray.dot(forward);
+    if(denom<=1e-8)return null;
+    const distance=Math.max(c.near,this.target.clone().sub(c.position).dot(forward));
+    return {point:c.position.clone().addScaledVector(ray,distance/denom),source:'focus_plane',frame:this.viewer.frame};
+  }
+  dragPivot(d,hit){
+    const c=this.viewer.camera,offset=hit.point.clone().sub(c.position);
+    Object.assign(d,{pivot:hit.point.clone(),distance:offset.length(),depth:Math.max(c.near,offset.dot(c.getWorldDirection(new Vector3()))),pending:false});
+    this.last={action:d.button===0?'rotate':'pan',source:hit.source,pivot:hit.point.toArray(),distance_m:d.distance,picked_frame:hit.frame,camera_before:c.position.toArray(),target_before:this.target.toArray()};
+  }
   down(e){
     if(e.pointerType==='touch'){this.touchDown(e);return;}if(!this.enabled||this.drag||![0,2].includes(e.button))return;e.preventDefault();this.element.focus({preventScroll:true});
     this.cancelWheel();
-    const pending={id:e.pointerId,button:e.button,x:e.clientX,y:e.clientY,latestX:e.clientX,latestY:e.clientY,pending:true};this.drag=pending;try{this.element.setPointerCapture(e.pointerId);}catch{}
+    const fallback=this.focusHit(e.clientX,e.clientY);if(!fallback)return;
+    const pending={id:e.pointerId,button:e.button,x:e.clientX,y:e.clientY,latestX:e.clientX,latestY:e.clientY,pending:false,moved:false};this.drag=pending;this.dragPivot(pending,fallback);try{this.element.setPointerCapture(e.pointerId);}catch{}
+    this.dispatchEvent({type:'start'});
     this.picker.pick(e.clientX,e.clientY).then(hit=>{
-      if(this.drag!==pending)return;if(!hit){this.drag=null;return;}
-      const c=this.viewer.camera,offset=hit.point.clone().sub(c.position);Object.assign(pending,{pivot:hit.point.clone(),distance:offset.length(),depth:Math.max(c.near,offset.dot(c.getWorldDirection(new Vector3()))),pending:false});
-      this.last={action:pending.button===0?'rotate':'pan',source:hit.source,pivot:hit.point.toArray(),distance_m:pending.distance,picked_frame:hit.frame,camera_before:c.position.toArray(),target_before:this.target.toArray()};this.dispatchEvent({type:'start'});
+      // Refine the click pivot only before movement; late GPU reads cannot cancel or jump a drag.
+      if(this.enabled&&this.drag===pending&&!pending.moved&&hit)this.dragPivot(pending,hit);
                                                                               
                                                                      
     }).catch(error=>this.viewer.reportError(error));
@@ -65,7 +81,7 @@ export class PixelNavigation extends EventDispatcher {
   flushInput(){const d=this.drag;if(this.enabled&&d&&!d.pending)this.applyMove(d.latestX,d.latestY);}
   applyMove(x,y){
     const d=this.drag;if(!d||d.pending)return;const dx=x-d.x,dy=y-d.y;d.x=x;d.y=y;if(!dx&&!dy)return;
-    this.pointerCameraUpdates++;const c=this.viewer.camera,h=Math.max(1,this.element.getBoundingClientRect().height);
+    d.moved=true;this.pointerCameraUpdates++;const c=this.viewer.camera,h=Math.max(1,this.element.getBoundingClientRect().height);
     if(d.button===0){
       const up=c.up.clone().normalize(),yaw=new Quaternion().setFromAxisAngle(up,-dx*2*Math.PI/h),forward=c.getWorldDirection(new Vector3()).applyQuaternion(yaw),right=new Vector3().crossVectors(forward,up).normalize(),elev=Math.asin(MathUtils.clamp(forward.dot(up),-1,1)),limit=Math.PI/2-.01;
       const pitch=MathUtils.clamp(-dy*2*Math.PI/h,-limit-elev,limit-elev),q=new Quaternion().setFromAxisAngle(right,pitch).multiply(yaw);
@@ -93,10 +109,11 @@ export class PixelNavigation extends EventDispatcher {
                                                                               
                                                                              
         if(this.viewer.depthSnapshot?.revision!==this.viewer.cameraRevision)this.viewer.renderFrame(0);
-        const revision=this.viewer.cameraRevision,hit=await this.picker.pick(request.x,request.y);
+        const revision=this.viewer.cameraRevision;let hit=await this.picker.pick(request.x,request.y);
         if(epoch!==this.wheelEpoch)continue;
         if(!this.enabled||this.drag||this.touches.size||this.viewer.disposed){this.cancelWheel();return;}
-        if(!hit||revision!==this.viewer.cameraRevision){this.wheelPending.shift();continue;}
+        if(!hit||revision!==this.viewer.cameraRevision)hit=this.focusHit(request.x,request.y);
+        if(!hit){this.wheelPending.shift();continue;}
         while(this.wheelPending.length&&this.wheelPending[0].x===request.x&&this.wheelPending[0].y===request.y){
           if(epoch!==this.wheelEpoch||!this.enabled||this.drag||this.touches.size||this.viewer.disposed)break;
           const event=this.wheelPending.shift(),c=this.viewer.camera,offset=hit.point.clone().sub(c.position),distance=offset.length();
