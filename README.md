@@ -1,5 +1,6 @@
 # Atlantis Gallery
 
+https://zhxx1987.github.io/AtlantisGallery/
 The gallery shows 12 works per page. Each work page shows the creator and provides a copyable link, file downloads, and 3D controls. Relative URLs support both local preview and GitHub Pages project sites.
 
 ## Run locally and deploy
